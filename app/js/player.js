@@ -7,8 +7,6 @@
 		this.lasers = lasers;
 
 		this.controls = new window.starfighter.Controls(this);
-		this.controls.press();
-		this.controls.release();
 
 		this.spriteX = 211;
 		this.spriteY = 941;
@@ -22,6 +20,8 @@
 
 		this.dx = 6;
 		this.dy = 6;
+
+		this.fireFrequency = 200;
 	};
 
 	Player.prototype.render = function() {
@@ -30,26 +30,44 @@
 							   this.spriteWidth, this.spriteHeight,
 							   this.renderX, this.renderY,
 							   this.renderWidth, this.renderHeight);
+		this.translate();
+	};
 
+	Player.prototype.translate = function() {
+		this.left();
+		this.right();
+		this.up();
+		this.down();
+	};
+
+	Player.prototype.left = function() {
 		var canMoveLeft = this.renderX >= this.dx;
 		if (this.controls.moveLeft && canMoveLeft)
-			this.renderX -= this.dx
+			this.renderX -= this.dx;
+	};
 
+	Player.prototype.right = function() {
 		var canMoveRight = this.renderX + this.renderWidth <= this.context.canvas.width - this.dx;
 		if (this.controls.moveRight && canMoveRight)
-			this.renderX += this.dx
+			this.renderX += this.dx;
+	};
 
+	Player.prototype.up = function() {
 		var canMoveUp = this.renderY >= this.dy;
 		if (this.controls.moveUp && canMoveUp)
 			this.renderY -= this.dy;
+	};
 
+	Player.prototype.down = function() {
 		var canMoveDown = this.renderY + this.renderHeight <= this.context.canvas.height - this.dy;
 		if (this.controls.moveDown && canMoveDown)
 			this.renderY += this.dy;
 	};
 
 	Player.prototype.fire = function() {
-		this.lasers.push(new window.starfighter.Laser(this.context, this.sheet, this.renderX + this.renderWidth / 2, this.renderY));
+		this.lasers.push(new window.starfighter.Laser(this.context, this.sheet,
+													  this.renderX + this.renderWidth / 2,
+													  this.renderY));
 	};
 
 })();

@@ -16,31 +16,34 @@
 		this.upArrow = 38;
 		this.downArrow = 40;
 		this.spaceBar = 32;
+
+		this.press();
+		this.release();
 	};
 
 	Controls.prototype.press = function() {
 		var that = this;
 
 		document.onkeydown = function(event) {
-			if (event.keyCode == that.A || event.keyCode == that.leftArrow)
-				that.moveLeft = true;
-
-			if (event.keyCode == that.D || event.keyCode == that.rightArrow)
-				that.moveRight = true;
-
-			if (event.keyCode == that.W || event.keyCode == that.upArrow)
-				that.moveUp = true;
-
-			if (event.keyCode == that.S || event.keyCode == that.downArrow)
-				that.moveDown = true;
-
-			if (event.keyCode == that.spaceBar) {
-				if (that.firing) return;
-
-				that.player.fire();
-				that.firing = setInterval(function() {
-					that.player.fire();
-				}, 200);
+			switch (event.keyCode) {
+				case that.A:
+				case that.leftArrow:
+					that.moveLeft = true;
+					break;
+				case that.D:
+				case that.rightArrow:
+					that.moveRight = true;
+					break;
+				case that.W:
+				case that.upArrow:
+					that.moveUp = true;
+					break;
+				case that.S:
+				case that.downArrow:
+					that.moveDown = true;
+					break;
+				case that.spaceBar:
+					that.fire();
 			}
 		};
 	};
@@ -49,23 +52,43 @@
 		var that = this;
 
 		document.onkeyup = function(event) {
-			if (event.keyCode == that.A || event.keyCode == that.leftArrow)
-				that.moveLeft = false;
-
-			if (event.keyCode == that.D || event.keyCode == that.rightArrow)
-				that.moveRight = false;
-
-			if (event.keyCode == that.W || event.keyCode == that.upArrow)
-				that.moveUp = false;
-
-			if (event.keyCode == that.S || event.keyCode == that.downArrow)
-				that.moveDown = false;
-
-			if (event.keyCode == that.spaceBar) {
-				clearInterval(that.firing);
-				delete that.firing;
+			switch (event.keyCode) {
+				case that.A:
+				case that.leftArrow:
+					that.moveLeft = false;
+					break;
+				case that.D:
+				case that.rightArrow:
+					that.moveRight = false;
+					break;
+				case that.W:
+				case that.upArrow:
+					that.moveUp = false;
+					break;
+				case that.S:
+				case that.downArrow:
+					that.moveDown = false;
+					break;
+				case that.spaceBar:
+					that.ceasefire();
 			}
 		};
+	};
+
+	Controls.prototype.fire = function() {
+		if (this.firing) return;
+
+		this.player.fire();
+
+		var that = this;
+		this.firing = setInterval(function() {
+			that.player.fire();
+		}, that.player.fireFrequency);
+	};
+
+	Controls.prototype.ceasefire = function() {
+		clearInterval(this.firing);
+		delete this.firing;
 	};
 
 })();

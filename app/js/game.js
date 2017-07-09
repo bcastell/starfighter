@@ -8,6 +8,8 @@
 		this.lasers = [];
 		this.player = new window.starfighter.Player(this.context, this.sheet, this.lasers);
 
+		this.cleanLimit = 128;
+
 		var that = this;
 		this.sheet.onload = function() {
 			requestAnimationFrame(that.render.bind(that));
@@ -20,11 +22,8 @@
 		this.lasers.forEach(function(laser) {
 			laser.render();
 		});
-		/*
-		this.lasers = this.lasers.filter(function(laser) {
-			return laser.active;
-		});
-		*/
+		if (this.lasers.length == this.cleanLimit)
+			this.lasers.splice(0, this.cleanLimit - 1);
 
 		requestAnimationFrame(this.render.bind(this));
 	};
