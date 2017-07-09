@@ -1,9 +1,14 @@
 (function() {
 	window.starfighter = window.starfighter || {};
 
-	var Player = window.starfighter.Player = function(context, sheet) {
+	var Player = window.starfighter.Player = function(context, sheet, lasers) {
 		this.context = context;
 		this.sheet = sheet;
+		this.lasers = lasers;
+
+		this.controls = new window.starfighter.Controls(this);
+		this.controls.press();
+		this.controls.release();
 
 		this.spriteX = 211;
 		this.spriteY = 941;
@@ -26,24 +31,25 @@
 							   this.renderX, this.renderY,
 							   this.renderWidth, this.renderHeight);
 
-		var controls = window.starfighter.controls;
-
 		var canMoveLeft = this.renderX >= this.dx;
-		if (controls.moveLeft && canMoveLeft)
+		if (this.controls.moveLeft && canMoveLeft)
 			this.renderX -= this.dx
 
 		var canMoveRight = this.renderX + this.renderWidth <= this.context.canvas.width - this.dx;
-		if (controls.moveRight && canMoveRight)
+		if (this.controls.moveRight && canMoveRight)
 			this.renderX += this.dx
 
 		var canMoveUp = this.renderY >= this.dy;
-		if (controls.moveUp && canMoveUp)
+		if (this.controls.moveUp && canMoveUp)
 			this.renderY -= this.dy;
 
 		var canMoveDown = this.renderY + this.renderHeight <= this.context.canvas.height - this.dy;
-		if (controls.moveDown && canMoveDown)
+		if (this.controls.moveDown && canMoveDown)
 			this.renderY += this.dy;
+	};
 
+	Player.prototype.fire = function() {
+		this.lasers.push(new window.starfighter.Laser(this.context, this.sheet, this.renderX + this.renderWidth / 2, this.renderY));
 	};
 
 })();

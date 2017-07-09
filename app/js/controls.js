@@ -1,51 +1,72 @@
 (function() {
 	window.starfighter = window.starfighter || {};
 
-	var controls = window.starfighter.controls = {
-		moveLeft   : false,
-		moveRight  : false,
-		moveUp     : false,
-		moveDown   : false,
-		A          : 65,
-		D		   : 68,
-		W		   : 87,
-		S		   : 83,
-		leftArrow  : 37,
-		rightArrow : 39,
-		upArrow	   : 38,
-		downArrow  : 40
+	var Controls = window.starfighter.Controls = function(player) {
+		this.player = player;
+		this.moveLeft = false;
+		this.moveRight = false;
+		this.moveUp = false;
+		this.moveDown = false;
+		this.A = 65;
+		this.D = 68;
+		this.W = 87;
+		this.S = 83;
+		this.leftArrow = 37;
+		this.rightArrow = 39;
+		this.upArrow = 38;
+		this.downArrow = 40;
+		this.spaceBar = 32;
 	};
 
-	function keydownHandler(event) {
-		if (event.keyCode == controls.A || event.keyCode == controls.leftArrow)
-			controls.moveLeft = true;
+	Controls.prototype.press = function() {
+		var that = this;
 
-		if (event.keyCode == controls.D || event.keyCode == controls.rightArrow)
-			controls.moveRight = true;
+		document.onkeydown = function(event) {
+			if (event.keyCode == that.A || event.keyCode == that.leftArrow)
+				that.moveLeft = true;
 
-		if (event.keyCode == controls.W || event.keyCode == controls.upArrow)
-			controls.moveUp = true;
+			if (event.keyCode == that.D || event.keyCode == that.rightArrow)
+				that.moveRight = true;
 
-		if (event.keyCode == controls.S || event.keyCode == controls.downArrow)
-			controls.moveDown = true;
-	}
+			if (event.keyCode == that.W || event.keyCode == that.upArrow)
+				that.moveUp = true;
 
-	function keyupHandler(event) {
-		if (event.keyCode == controls.A || event.keyCode == controls.leftArrow)
-			controls.moveLeft = false;
+			if (event.keyCode == that.S || event.keyCode == that.downArrow)
+				that.moveDown = true;
 
-		if (event.keyCode == controls.D || event.keyCode == controls.rightArrow)
-			controls.moveRight = false;
+			if (event.keyCode == that.spaceBar) {
+				if (that.firing) return;
 
-		if (event.keyCode == controls.W || event.keyCode == controls.upArrow)
-			controls.moveUp = false;
+				that.player.fire();
+				that.firing = setInterval(function() {
+					that.player.fire();
+				}, 200);
+			}
+		};
+	};
 
-		if (event.keyCode == controls.S || event.keyCode == controls.downArrow)
-			controls.moveDown = false;
-	}
+	Controls.prototype.release = function() {
+		var that = this;
 
-	document.addEventListener("keydown", keydownHandler);
-	document.addEventListener("keyup", keyupHandler);
+		document.onkeyup = function(event) {
+			if (event.keyCode == that.A || event.keyCode == that.leftArrow)
+				that.moveLeft = false;
+
+			if (event.keyCode == that.D || event.keyCode == that.rightArrow)
+				that.moveRight = false;
+
+			if (event.keyCode == that.W || event.keyCode == that.upArrow)
+				that.moveUp = false;
+
+			if (event.keyCode == that.S || event.keyCode == that.downArrow)
+				that.moveDown = false;
+
+			if (event.keyCode == that.spaceBar) {
+				clearInterval(that.firing);
+				delete that.firing;
+			}
+		};
+	};
 
 })();
 
