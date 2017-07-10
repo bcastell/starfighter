@@ -1,10 +1,11 @@
 (function() {
 	window.starfighter = window.starfighter || {};
 
-	var Player = window.starfighter.Player = function(context, sheet, lasers) {
+	var Player = window.starfighter.Player = function(context, sheet, lasers, meteors) {
 		this.context = context;
 		this.sheet = sheet;
 		this.lasers = lasers;
+		this.meteors = meteors;
 
 		this.controls = new window.starfighter.Controls(this);
 
@@ -67,7 +68,8 @@
 	Player.prototype.fire = function() {
 		this.lasers.push(new window.starfighter.Laser(this.context, this.sheet,
 													  this.renderX + this.renderWidth / 2,
-													  this.renderY));
+													  this.renderY,
+													  this.meteors));
 	};
 
 })();
