@@ -1,52 +1,64 @@
 (function() {
 	window.starfighter = window.starfighter || {};
 
-	var Meteor = window.starfighter.Meteor = function(context, sheet, player, lasers) {
-		this.context = context;
-		this.sheet = sheet;
-		this.player = player;
-		this.lasers = lasers;
+	var Meteor = window.starfighter.Meteor = function(settings, type, start) {
+		window.starfighter.Actor.call(this, settings);
 
-		this.spriteX = 224;
-		this.spriteY = 664;
-		this.spriteWidth = 101;
-		this.spriteHeight = 84;
+		this.type = type;
 
-		this.renderWidth = this.spriteWidth;
-		this.renderHeight = this.spriteHeight;
-		this.renderX = this.context.canvas.width / 2 - this.renderWidth / 2;
-		this.renderY = 0;
+		this.dimensions = new window.starfighter.Vector(this.constants.meteor[type].SPRITE_WIDTH, this.constants.meteor[type].SPRITE_HEIGHT);
 
-		this.dx = 0;
-		this.dy = 6;
+		this.position = start;
+
+		this.velocity = new window.starfighter.Vector(this.constants.meteor[type].VELOCITY_X, this.constants.meteor[type].VELOCITY_Y);
+
+		this.active = true;
+
+		this.hp = this.constants.meteor[type].HP;
+
+		this.hit = false;
 	};
 
+	Meteor.prototype = Object.create(window.starfighter.Actor.prototype);
+
 	Meteor.prototype.render = function() {
-		this.context.drawImage(this.sheet,
-							   this.spriteX, this.spriteY,
-							   this.spriteWidth, this.spriteHeight,
-							   this.renderX, this.renderY,
-							   this.renderWidth, this.renderHeight);
-		this.translate();
-		this.collide();
+		if (this.active) {
+			var type = this.constants.meteor[this.type];
+			var spriteX = this.hit ? type.hit.SPRITE_X : type.normal.SPRITE_X;
+			var spriteY = this.hit ? type.hit.SPRITE_Y : type.normal.SPRITE_Y;
+
+			this.context.drawImage(this.sheet,
+								   spriteX, spriteY,
+							       type.SPRITE_WIDTH, type.SPRITE_HEIGHT,
+							       this.position.x, this.position.y,
+							       this.dimensions.x, this.dimensions.y);
+
+			this.hit = this.hit ? !this.hit : this.hit;
+		}
 	};
 
 	Meteor.prototype.translate = function() {
-		this.down();
+		if (this.active) {
+			this.down();
+		}
 	};
 
 	Meteor.prototype.down = function() {
-		this.renderY += this.dy;
+		this.position.y += this.velocity.y;
 	};
 
 	Meteor.prototype.collide = function() {
-		var x = (this.renderX + this.renderWidth >= this.player.renderX + this.player.renderWidth * 0.1) &&
-				(this.renderX <= this.player.renderX + this.player.renderWidth - this.player.renderWidth * 0.1);
+		if (this.active) {
+			/*
+			var x = (this.position.x + this.dimensions.x >= this.player.renderX + this.player.renderWidth * 0.1) &&
+					(this.renderX <= this.player.renderX + this.player.renderWidth - this.player.renderWidth * 0.1);
 
-		var y = (this.renderY + this.renderHeight >= this.player.renderY + this.player.renderHeight * 0.1) &&
-				(this.renderY <= this.player.renderY + this.player.renderHeight - this.player.renderHeight * 0.1);
+			var y = (this.renderY + this.renderHeight >= this.player.renderY + this.player.renderHeight * 0.1) &&
+					(this.renderY <= this.player.renderY + this.player.renderHeight - this.player.renderHeight * 0.1);
 
-		if (x && y) {}
+			if (x && y) {}
+			*/
+		}
 	};
 
 })();

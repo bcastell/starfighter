@@ -1,75 +1,68 @@
 (function() {
 	window.starfighter = window.starfighter || {};
 
-	var Player = window.starfighter.Player = function(context, sheet, lasers, meteors) {
-		this.context = context;
-		this.sheet = sheet;
-		this.lasers = lasers;
-		this.meteors = meteors;
+	var Player = window.starfighter.Player = function(settings) {
+		window.starfighter.Actor.call(this, settings);
 
-		this.controls = new window.starfighter.Controls(this);
+		this.controls = new window.starfighter.Controls(this, this.constants);
 
-		this.spriteX = 211;
-		this.spriteY = 941;
-		this.spriteWidth = 99;
-		this.spriteHeight = 75;
+		this.dimensions = new window.starfighter.Vector(this.constants.player.SPRITE_WIDTH * this.constants.player.SCALE_FACTOR,
+														this.constants.player.SPRITE_HEIGHT * this.constants.player.SCALE_FACTOR);
 
-		this.renderWidth = this.spriteWidth * 0.6;
-		this.renderHeight = this.spriteHeight * 0.6;
-		this.renderX = context.canvas.width / 2 - this.renderWidth / 2;
-		this.renderY = context.canvas.height - this.renderHeight;
+		this.position = new window.starfighter.Vector(this.context.canvas.width / 2 - this.dimensions.x / 2,
+													  this.context.canvas.height - this.dimensions.y);
 
-		this.dx = 6;
-		this.dy = 6;
-
-		this.fireFrequency = 200;
+		this.velocity = new window.starfighter.Vector(this.constants.player.VELOCITY_X, this.constants.player.VELOCITY_Y);
 	};
+
+	Player.prototype = Object.create(window.starfighter.Actor.prototype);
 
 	Player.prototype.render = function() {
 		this.context.drawImage(this.sheet,
-							   this.spriteX, this.spriteY,
-							   this.spriteWidth, this.spriteHeight,
-							   this.renderX, this.renderY,
-							   this.renderWidth, this.renderHeight);
-		this.translate();
+							   this.constants.player.SPRITE_X, this.constants.player.SPRITE_Y,
+							   this.constants.player.SPRITE_WIDTH, this.constants.player.SPRITE_HEIGHT,
+							   this.position.x, this.position.y,
+							   this.dimensions.x, this.dimensions.y);
 	};
 
 	Player.prototype.translate = function() {
-		this.left();
-		this.right();
-		this.up();
-		this.down();
+		this.keyboard();
+	};
+
+	Player.prototype.keyboard = function() {
+		if (this.controls.moveLeft && this.position.x >= this.velocity.x)
+			this.left();
+
+		if (this.controls.moveRight && this.position.x + this.dimensions.x <= this.context.canvas.width - this.velocity.x)
+			this.right();
+
+		if (this.controls.moveUp && this.position.y >= this.velocity.y)
+			this.up();
+
+		if (this.controls.moveDown && this.position.y + this.dimensions.y <= this.context.canvas.height - this.velocity.y)
+			this.down();
 	};
 
 	Player.prototype.left = function() {
-		var canMoveLeft = this.renderX >= this.dx;
-		if (this.controls.moveLeft && canMoveLeft)
-			this.renderX -= this.dx;
+		this.position.x -= this.velocity.x;
 	};
 
 	Player.prototype.right = function() {
-		var canMoveRight = this.renderX + this.renderWidth <= this.context.canvas.width - this.dx;
-		if (this.controls.moveRight && canMoveRight)
-			this.renderX += this.dx;
+		this.position.x += this.velocity.x;
 	};
 
 	Player.prototype.up = function() {
-		var canMoveUp = this.renderY >= this.dy;
-		if (this.controls.moveUp && canMoveUp)
-			this.renderY -= this.dy;
+		this.position.y -= this.velocity.y;
 	};
 
 	Player.prototype.down = function() {
-		var canMoveDown = this.renderY + this.renderHeight <= this.context.canvas.height - this.dy;
-		if (this.controls.moveDown && canMoveDown)
-			this.renderY += this.dy;
+		this.position.y += this.velocity.y;
 	};
 
 	Player.prototype.fire = function() {
-		this.lasers.push(new window.starfighter.Laser(this.context, this.sheet,
-													  this.renderX + this.renderWidth / 2,
-													  this.renderY,
-													  this.meteors));
+		var start = new window.starfighter.Vector(this.position.x + this.dimensions.x / 2, this.position.y);
+
+		this.actors[this.constants.game.LASERS].push(new window.starfighter.Laser(this.settings, start));
 	};
 
 })();

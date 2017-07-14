@@ -1,21 +1,14 @@
 (function() {
 	window.starfighter = window.starfighter || {};
 
-	var Controls = window.starfighter.Controls = function(player) {
+	var Controls = window.starfighter.Controls = function(player, constants) {
 		this.player = player;
+		this.constants = constants;
+
 		this.moveLeft = false;
 		this.moveRight = false;
 		this.moveUp = false;
 		this.moveDown = false;
-		this.A = 65;
-		this.D = 68;
-		this.W = 87;
-		this.S = 83;
-		this.leftArrow = 37;
-		this.rightArrow = 39;
-		this.upArrow = 38;
-		this.downArrow = 40;
-		this.spaceBar = 32;
 
 		this.press();
 		this.release();
@@ -26,23 +19,23 @@
 
 		document.onkeydown = function(event) {
 			switch (event.keyCode) {
-				case that.A:
-				case that.leftArrow:
+				case that.constants.controls.A:
+				case that.constants.controls.leftArrow:
 					that.moveLeft = true;
 					break;
-				case that.D:
-				case that.rightArrow:
+				case that.constants.controls.D:
+				case that.constants.controls.rightArrow:
 					that.moveRight = true;
 					break;
-				case that.W:
-				case that.upArrow:
+				case that.constants.controls.W:
+				case that.constants.controls.upArrow:
 					that.moveUp = true;
 					break;
-				case that.S:
-				case that.downArrow:
+				case that.constants.controls.S:
+				case that.constants.controls.downArrow:
 					that.moveDown = true;
 					break;
-				case that.spaceBar:
+				case that.constants.controls.spaceBar:
 					that.fire();
 			}
 		};
@@ -53,23 +46,23 @@
 
 		document.onkeyup = function(event) {
 			switch (event.keyCode) {
-				case that.A:
-				case that.leftArrow:
+				case that.constants.controls.A:
+				case that.constants.controls.leftArrow:
 					that.moveLeft = false;
 					break;
-				case that.D:
-				case that.rightArrow:
+				case that.constants.controls.D:
+				case that.constants.controls.rightArrow:
 					that.moveRight = false;
 					break;
-				case that.W:
-				case that.upArrow:
+				case that.constants.controls.W:
+				case that.constants.controls.upArrow:
 					that.moveUp = false;
 					break;
-				case that.S:
-				case that.downArrow:
+				case that.constants.controls.S:
+				case that.constants.controls.downArrow:
 					that.moveDown = false;
 					break;
-				case that.spaceBar:
+				case that.constants.controls.spaceBar:
 					that.ceasefire();
 			}
 		};
@@ -83,7 +76,7 @@
 		var that = this;
 		this.firing = setInterval(function() {
 			that.player.fire();
-		}, that.player.fireFrequency);
+		}, that.constants.player.FIRE_FREQUENCY);
 	};
 
 	Controls.prototype.ceasefire = function() {

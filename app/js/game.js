@@ -1,42 +1,58 @@
 (function() {
 	var Game = window.starfighter.Game = function() {
-		this.context = document.getElementById("cv").getContext("2d");
-
-		this.sheet = new Image();
-		this.sheet.src = "images/sheet.png";
-
-		this.lasers = [];
-		this.meteors = [];
-		this.player = new window.starfighter.Player(this.context, this.sheet, this.lasers, this.meteors);
-
-		this.spawner = new window.starfighter.Spawner(this.context, this.sheet, this.player, this.lasers, this.meteors);
-
-		this.cleanLimit = 256;
+		this.settings = this.setup();
 
 		var that = this;
-		this.sheet.onload = function() {
+		this.settings.sheet.onload = function() {
 			requestAnimationFrame(that.render.bind(that));
 		};
 	};
 
 	Game.prototype.render = function() {
-		this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
+		this.settings.context.clearRect(0, 0, this.settings.context.canvas.width, this.settings.context.canvas.height);
 
-		this.player.render();
-
-		this.lasers.forEach(function(laser) {
-			laser.render();
+		this.settings.actors.forEach(function(type) {
+			type.forEach(function(actor) {
+				actor.render();
+			});
 		});
-		if (this.lasers.length == this.cleanLimit)
-			this.lasers.splice(0, this.cleanLimit - 1);
 
-		this.meteors.forEach(function(meteor) {
-			meteor.render();
+		this.settings.actors.forEach(function(type) {
+			type.forEach(function(actor) {
+				actor.collide();
+			});
 		});
-		if (this.meteors.length == this.cleanLimit)
-			this.meteors.splice(0, this.cleanLimit - 1);
+
+		this.settings.actors.forEach(function(type) {
+			type.forEach(function(actor) {
+				actor.translate();
+			});
+		});
+
+		var that = this;
+		this.settings.actors.forEach(function(type) {
+			if (type.length == that.settings.constants.game.OVERFLOW)
+				type.splice(0, that.settings.constants.game.OVERFLOW - 1);
+		});
 
 		requestAnimationFrame(this.render.bind(this));
+	};
+
+	Game.prototype.setup = function() {
+		var settings = Object.create(null);
+
+		settings.constants = new window.starfighter.Constants();
+
+		settings.context = document.getElementById("cv").getContext("2d");
+
+		settings.sheet = new Image();
+		settings.sheet.src = settings.constants.game.SPRITE_SHEET;
+
+		settings.actors = [[], [], [], []];
+		settings.actors[settings.constants.game.PLAYER].push(new window.starfighter.Player(settings));
+		settings.actors[settings.constants.game.SPAWNER].push(new window.starfighter.Spawner(settings));
+
+		return settings;
 	};
 
 	new Game();

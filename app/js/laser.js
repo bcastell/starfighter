@@ -1,62 +1,63 @@
 (function() {
 	window.starfighter = window.starfighter || {};
 
-	var Laser = window.starfighter.Laser = function(context, sheet, playerX, playerY, meteors) {
-		this.context = context;
-		this.sheet = sheet;
-		this.meteors = meteors;
+	var Laser = window.starfighter.Laser = function(settings, start) {
+		window.starfighter.Actor.call(this, settings);
 
-		this.spriteX = 856;
-		this.spriteY = 421;
-		this.spriteWidth = 9;
-		this.spriteHeight = 54;
+		this.dimensions = new window.starfighter.Vector(this.constants.laser.SPRITE_WIDTH, this.constants.laser.SPRITE_HEIGHT);
 
-		this.renderWidth = this.spriteWidth;
-		this.renderHeight = this.spriteHeight;
-		this.renderX = playerX - this.renderWidth / 2;
-		this.renderY = playerY - this.renderHeight;
+		this.position = new window.starfighter.Vector(start.x - this.dimensions.x / 2, start.y - this.dimensions.y);
 
-		this.dx = 0;
-		this.dy = 16;
+		this.velocity = new window.starfighter.Vector(this.constants.laser.VELOCITY_X, this.constants.laser.VELOCITY_Y);
 
 		this.active = true;
 	};
 
+	Laser.prototype = Object.create(window.starfighter.Actor.prototype);
+
 	Laser.prototype.render = function() {
 		if (this.active) {
 			this.context.drawImage(this.sheet,
-								   this.spriteX, this.spriteY,
-								   this.spriteWidth, this.spriteHeight,
-							       this.renderX, this.renderY,
-							       this.renderWidth, this.renderHeight);
-			this.translate();
-			this.collide();
+								   this.constants.laser.SPRITE_X, this.constants.laser.SPRITE_Y,
+								   this.constants.laser.SPRITE_WIDTH, this.constants.laser.SPRITE_HEIGHT,
+								   this.position.x, this.position.y,
+								   this.dimensions.x, this.dimensions.y);
 		}
 	};
 
 	Laser.prototype.translate = function() {
-		var beyond = this.renderY + this.renderHeight <= 0;
-		if (beyond)
-			this.active = false;
+		if (this.active) {
+			if (this.position.y + this.dimensions.y <= 0)
+				this.active = false;
 
-		this.up();
+			this.up();
+		}
 	};
 
 	Laser.prototype.up = function() {
-		this.renderY -= this.dy;
+		this.position.y -= this.velocity.y;
 	};
 
 	Laser.prototype.collide = function() {
-		var that = this;
+		if (this.active) {
+			var that = this;
 
-		this.meteors.forEach(function(meteor) {
-			var x = (that.renderX + that.renderWidth >= meteor.renderX) && (that.renderX <= meteor.renderX + meteor.renderWidth);
-			var y = (that.renderY <= meteor.renderY + meteor.renderHeight) && (that.renderY + that.renderHeight >= meteor.renderY);
+			this.actors[this.constants.game.METEORS].forEach(function(meteor) {
+				if (meteor.active) {
+					var x = (that.position.x + that.dimensions.x >= meteor.position.x) && (that.position.x <= meteor.position.x + meteor.dimensions.x);
+					var y = (that.position.y <= meteor.position.y + meteor.dimensions.y) && (that.position.y + that.dimensions.y >= meteor.position.y);
 
-			if (x && y)
-				that.active = false;
-		});
+					if (x && y) {
+						that.active = false;
+						meteor.hp -= that.constants.laser.DAMAGE;
+						meteor.hit = true;
 
+						if (meteor.hp == 0)
+							meteor.active = false;
+					}
+				}
+			});
+		}
 	};
 
 })();
