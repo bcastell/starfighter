@@ -52,8 +52,15 @@
 						meteor.hp -= that.constants.laser.DAMAGE;
 						meteor.hit = true;
 
-						if (meteor.hp == 0)
+						if (meteor.hp == 0) {
 							meteor.active = false;
+
+							var centerX = meteor.position.x + meteor.dimensions.x / 2;
+							var centerY = meteor.position.y + meteor.dimensions.y / 2;
+							var start = new window.starfighter.Vector(centerX, centerY);
+							var radius = meteor.dimensions.x / 2;
+							that.actors[that.constants.game.PARTICLES].push(new window.starfighter.Particle(that.settings, start, radius));
+						}
 					}
 				}
 			});

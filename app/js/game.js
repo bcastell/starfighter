@@ -48,7 +48,7 @@
 		settings.sheet = new Image();
 		settings.sheet.src = settings.constants.game.SPRITE_SHEET;
 
-		settings.actors = [[], [], [], []];
+		settings.actors = [[], [], [], [], []];
 		settings.actors[settings.constants.game.PLAYER].push(new window.starfighter.Player(settings));
 		settings.actors[settings.constants.game.SPAWNER].push(new window.starfighter.Spawner(settings));
 

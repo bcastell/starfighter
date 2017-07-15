@@ -6,9 +6,10 @@
 			SPRITE_SHEET : "images/sheet.png",
 			OVERFLOW     : 256,
 			PLAYER       : 0,
-			METEORS      : 1,
-			LASERS       : 2,
-			SPAWNER      : 3
+			PARTICLES    : 1,
+			METEORS      : 2,
+			LASERS       : 3,
+			SPAWNER      : 4
 		};
 
 		this.controls = {
@@ -114,6 +115,12 @@
 				SMALL_FREQUENCY  : 1000,
 				TINY_FREQUENCY   : 500
 			}
+		};
+
+		this.particle = {
+			RADIUS : 0,
+			BLUR   : 0,
+			ALPHA  : 1
 		};
 	};
 
