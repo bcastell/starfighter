@@ -1,40 +1,39 @@
 (function() {
-	window.starfighter = window.starfighter || {};
+	var starfighter = window.starfighter = window.starfighter || {};
 
-	var Spawner = window.starfighter.Spawner = function(settings) {
-		window.starfighter.Actor.call(this, settings);
+	var Spawner = starfighter.Spawner = function(settings) {
+		starfighter.Actor.call(this, settings);
 
 		this.meteor();
 	};
 
-	Spawner.prototype = Object.create(window.starfighter.Actor.prototype);
+	Spawner.prototype = Object.create(starfighter.Actor.prototype);
 
 	Spawner.prototype.meteor = function() {
+		var Meteor = starfighter.Meteor;
+		var game = this.constants.game;
+		var spawner = this.constants.spawner;
 		var that = this;
 
 		this.bigMeteorTimer = setInterval(function() {
-			var start = new window.starfighter.Vector(that.randomInteger(0, that.context.canvas.width - that.constants.meteor.big.SPRITE_WIDTH), 0);
-
-			that.actors[that.constants.game.METEORS].push(new window.starfighter.Meteor(that.settings, "big", start));
-		}, that.constants.spawner.meteor.BIG_FREQUENCY);
+			var type = "big";
+			that.actors[game.METEORS].push(new Meteor(that.settings, type, that.meteorStart(type)));
+		}, spawner.meteor.BIG_FREQUENCY);
 
 		this.mediumMeteorTimer = setInterval(function() {
-			var start = new window.starfighter.Vector(that.randomInteger(0, that.context.canvas.width - that.constants.meteor.medium.SPRITE_WIDTH), 0);
-
-			that.actors[that.constants.game.METEORS].push(new window.starfighter.Meteor(that.settings, "medium", start));
-		}, that.constants.spawner.meteor.MEDIUM_FREQUENCY);
+			var type = "medium";
+			that.actors[game.METEORS].push(new Meteor(that.settings, type, that.meteorStart(type)));
+		}, spawner.meteor.MEDIUM_FREQUENCY);
 
 		this.smallMeteorTimer = setInterval(function() {
-			var start = new window.starfighter.Vector(that.randomInteger(0, that.context.canvas.width - that.constants.meteor.small.SPRITE_WIDTH), 0);
-
-			that.actors[that.constants.game.METEORS].push(new window.starfighter.Meteor(that.settings, "small", start));
-		}, that.constants.spawner.meteor.SMALL_FREQUENCY);
+			var type = "small";
+			that.actors[game.METEORS].push(new Meteor(that.settings, type, that.meteorStart(type)));
+		}, spawner.meteor.SMALL_FREQUENCY);
 
 		this.tinyMeteorTimer = setInterval(function() {
-			var start = new window.starfighter.Vector(that.randomInteger(0, that.context.canvas.width - that.constants.meteor.tiny.SPRITE_WIDTH), 0);
-
-			that.actors[that.constants.game.METEORS].push(new window.starfighter.Meteor(that.settings, "tiny", start));
-		}, that.constants.spawner.meteor.TINY_FREQUENCY);
+			var type = "tiny";
+			that.actors[game.METEORS].push(new Meteor(that.settings, type, that.meteorStart(type)));
+		}, spawner.meteor.TINY_FREQUENCY);
 	};
 
 	Spawner.prototype.randomInteger = function(min, max) {
@@ -42,6 +41,13 @@
 		max = Math.floor(max);
 
 		return Math.floor(Math.random() * (max - min)) + min;
+	};
+
+	Spawner.prototype.meteorStart = function(type) {
+		var x = this.randomInteger(0, this.context.canvas.width - this.constants.meteor[type].SPRITE_WIDTH);
+		var y = 0;
+
+		return new starfighter.Vector(x, y);
 	};
 
 })();

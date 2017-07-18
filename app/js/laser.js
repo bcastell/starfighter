@@ -1,25 +1,26 @@
 (function() {
-	window.starfighter = window.starfighter || {};
+	var starfighter = window.starfighter = window.starfighter || {};
 
-	var Laser = window.starfighter.Laser = function(settings, start) {
-		window.starfighter.Actor.call(this, settings);
+	var Laser = starfighter.Laser = function(settings, start) {
+		starfighter.Actor.call(this, settings);
 
-		this.dimensions = new window.starfighter.Vector(this.constants.laser.SPRITE_WIDTH, this.constants.laser.SPRITE_HEIGHT);
+		var laser = this.constants.laser;
 
-		this.position = new window.starfighter.Vector(start.x - this.dimensions.x / 2, start.y - this.dimensions.y);
-
-		this.velocity = new window.starfighter.Vector(this.constants.laser.VELOCITY_X, this.constants.laser.VELOCITY_Y);
-
+		this.dimensions = new starfighter.Vector(laser.SPRITE_WIDTH, laser.SPRITE_HEIGHT);
+		this.position = new starfighter.Vector(start.x - this.dimensions.x / 2, start.y - this.dimensions.y);
+		this.velocity = new starfighter.Vector(laser.VELOCITY_X, laser.VELOCITY_Y);
 		this.active = true;
 	};
 
-	Laser.prototype = Object.create(window.starfighter.Actor.prototype);
+	Laser.prototype = Object.create(starfighter.Actor.prototype);
 
 	Laser.prototype.render = function() {
+		var laser = this.constants.laser;
+
 		if (this.active) {
 			this.context.drawImage(this.sheet,
-								   this.constants.laser.SPRITE_X, this.constants.laser.SPRITE_Y,
-								   this.constants.laser.SPRITE_WIDTH, this.constants.laser.SPRITE_HEIGHT,
+								   laser.SPRITE_X, laser.SPRITE_Y,
+								   laser.SPRITE_WIDTH, laser.SPRITE_HEIGHT,
 								   this.position.x, this.position.y,
 								   this.dimensions.x, this.dimensions.y);
 		}
@@ -44,27 +45,54 @@
 
 			this.actors[this.constants.game.METEORS].forEach(function(meteor) {
 				if (meteor.active) {
-					var x = (that.position.x + that.dimensions.x >= meteor.position.x) && (that.position.x <= meteor.position.x + meteor.dimensions.x);
-					var y = (that.position.y <= meteor.position.y + meteor.dimensions.y) && (that.position.y + that.dimensions.y >= meteor.position.y);
+					if (that.collideMeteor(meteor)) {
+						that.meteorDamaged(meteor);
 
-					if (x && y) {
-						that.active = false;
-						meteor.hp -= that.constants.laser.DAMAGE;
-						meteor.hit = true;
-
-						if (meteor.hp == 0) {
-							meteor.active = false;
-
-							var centerX = meteor.position.x + meteor.dimensions.x / 2;
-							var centerY = meteor.position.y + meteor.dimensions.y / 2;
-							var start = new window.starfighter.Vector(centerX, centerY);
-							var radius = meteor.dimensions.x / 2;
-							that.actors[that.constants.game.PARTICLES].push(new window.starfighter.Particle(that.settings, start, radius));
-						}
+						if (meteor.hp == 0) that.meteorDead(meteor);
 					}
 				}
 			});
 		}
+	};
+
+	Laser.prototype.collideMeteor = function(meteor) {
+		var hitbox = {
+			west  : meteor.position.x,
+			east  : meteor.position.x + meteor.dimensions.x,
+			north : meteor.position.y,
+			south : meteor.position.y + meteor.dimensions.y
+		};
+
+		var entered = this.position.x + this.dimensions.x >= hitbox.west;
+		entered = entered && this.position.x <= hitbox.east;
+		entered = entered && this.position.y + this.dimensions.y >= hitbox.north;
+		entered = entered && this.position.y <= hitbox.south;
+
+		return entered;
+	};
+
+	Laser.prototype.meteorCenter = function(meteor) {
+		var x = meteor.position.x + meteor.dimensions.x / 2;
+		var y = meteor.position.y + meteor.dimensions.y / 2;
+
+		return new starfighter.Vector(x, y);
+	};
+
+	Laser.prototype.meteorRadius = function(meteor) {
+		return Math.sqrt(Math.pow(meteor.dimensions.x, 2) + Math.pow(meteor.dimensions.y, 2));
+	};
+
+	Laser.prototype.meteorDamaged = function(meteor) {
+		this.active = false;
+		meteor.hp -= this.constants.laser.DAMAGE;
+		meteor.hit = true;
+	};
+
+	Laser.prototype.meteorDead = function(meteor) {
+		meteor.active = false;
+
+		var particle = new starfighter.Particle(this.settings, this.meteorCenter(meteor), this.meteorRadius(meteor), "meteor");
+		this.actors[this.constants.game.PARTICLES].push(particle);
 	};
 
 })();

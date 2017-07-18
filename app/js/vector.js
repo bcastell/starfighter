@@ -1,7 +1,7 @@
 (function() {
-	window.starfighter = window.starfighter || {};
+	var starfighter = window.starfighter = window.starfighter || {};
 
-	var Vector = window.starfighter.Vector = function(x, y) {
+	var Vector = starfighter.Vector = function(x, y) {
 		this.x = x;
 		this.y = y;
 	};

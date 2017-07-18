@@ -1,10 +1,9 @@
 (function() {
-	window.starfighter = window.starfighter || {};
+	var starfighter = window.starfighter = window.starfighter || {};
 
-	var Controls = window.starfighter.Controls = function(player, constants) {
+	var Controls = starfighter.Controls = function(player, constants) {
 		this.player = player;
 		this.constants = constants;
-
 		this.moveLeft = false;
 		this.moveRight = false;
 		this.moveUp = false;
@@ -69,14 +68,16 @@
 	};
 
 	Controls.prototype.fire = function() {
-		if (this.firing) return;
+		if (!this.player.dead) {
+			if (this.firing) return;
 
-		this.player.fire();
+			this.player.fire();
 
-		var that = this;
-		this.firing = setInterval(function() {
-			that.player.fire();
-		}, that.constants.player.FIRE_FREQUENCY);
+			var that = this;
+			this.firing = setInterval(function() {
+				that.player.fire();
+			}, that.constants.player.FIRE_FREQUENCY);
+		}
 	};
 
 	Controls.prototype.ceasefire = function() {

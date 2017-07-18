@@ -1,15 +1,16 @@
 (function() {
-	window.starfighter = window.starfighter || {};
+	var starfighter = window.starfighter = window.starfighter || {};
 
-	var Constants = window.starfighter.Constants = function() {
+	var Constants = starfighter.Constants = function() {
 		this.game = {
 			SPRITE_SHEET : "images/sheet.png",
 			OVERFLOW     : 256,
 			PLAYER       : 0,
-			PARTICLES    : 1,
-			METEORS      : 2,
-			LASERS       : 3,
-			SPAWNER      : 4
+			LIVES		 : 1,
+			PARTICLES    : 2,
+			METEORS      : 3,
+			LASERS       : 4,
+			SPAWNER      : 5
 		};
 
 		this.controls = {
@@ -32,7 +33,10 @@
 			SCALE_FACTOR   : 0.5,
 			VELOCITY_X     : 6,
 			VELOCITY_Y     : 6,
-			FIRE_FREQUENCY : 160
+			FIRE_FREQUENCY : 160,
+			ALPHA          : 0.5,
+			REVIVE_DELAY   : 2000,
+			IMMUNE_DELAY   : 2000
 		};
 
 		this.laser = {
@@ -120,7 +124,31 @@
 		this.particle = {
 			RADIUS : 0,
 			BLUR   : 0,
-			ALPHA  : 1
+			ALPHA  : 1,
+			meteor : {
+				FILL_STYLE   : "grey",
+				SHADOW_COLOR : "white"
+			},
+			death : {
+				FILL_STYLE   : "red",
+				SHADOW_COLOR : "yellow",
+				RADIUS       : 80
+			},
+			revive : {
+				FILL_STYLE   : "#74b1be",
+				SHADOW_COLOR : "grey",
+				RADIUS       : 80
+			}
+		};
+
+		this.lives = {
+			SPRITE_X       : 482,
+			SPRITE_Y       : 358,
+			SPRITE_WIDTH   : 33,
+			SPRITE_HEIGHT  : 26,
+			STARTING_LIVES : 3,
+			FONT		   : "18px sans-serif",
+			FILL_STYLE	   : "#74b1be"
 		};
 	};
 

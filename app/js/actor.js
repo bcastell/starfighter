@@ -1,7 +1,7 @@
 (function() {
-	window.starfighter = window.starfighter || {};
+	var starfighter = window.starfighter = window.starfighter || {};
 
-	var Actor = window.starfighter.Actor = function(settings) {
+	var Actor = starfighter.Actor = function(settings) {
 		this.settings = settings;
 		this.context = settings.context;
 		this.sheet = settings.sheet;

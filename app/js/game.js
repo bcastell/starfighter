@@ -1,5 +1,7 @@
 (function() {
-	var Game = window.starfighter.Game = function() {
+	var starfighter = window.starfighter = window.starfighter || {};
+
+	var Game = starfighter.Game = function() {
 		this.settings = this.setup();
 
 		var that = this;
@@ -41,16 +43,17 @@
 	Game.prototype.setup = function() {
 		var settings = Object.create(null);
 
-		settings.constants = new window.starfighter.Constants();
+		settings.constants = new starfighter.Constants();
 
 		settings.context = document.getElementById("cv").getContext("2d");
 
 		settings.sheet = new Image();
 		settings.sheet.src = settings.constants.game.SPRITE_SHEET;
 
-		settings.actors = [[], [], [], [], []];
-		settings.actors[settings.constants.game.PLAYER].push(new window.starfighter.Player(settings));
-		settings.actors[settings.constants.game.SPAWNER].push(new window.starfighter.Spawner(settings));
+		settings.actors = [[], [], [], [], [], []];
+		settings.actors[settings.constants.game.PLAYER].push(new starfighter.Player(settings));
+		settings.actors[settings.constants.game.LIVES].push(new starfighter.Lives(settings));
+		settings.actors[settings.constants.game.SPAWNER].push(new starfighter.Spawner(settings));
 
 		return settings;
 	};

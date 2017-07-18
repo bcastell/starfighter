@@ -1,32 +1,48 @@
 (function() {
-	window.starfighter = window.starfighter || {};
+	var starfighter = window.starfighter = window.starfighter || {};
 
-	var Player = window.starfighter.Player = function(settings) {
-		window.starfighter.Actor.call(this, settings);
+	var Player = starfighter.Player = function(settings) {
+		starfighter.Actor.call(this, settings);
 
-		this.controls = new window.starfighter.Controls(this, this.constants);
+		var player = this.constants.player;
 
-		this.dimensions = new window.starfighter.Vector(this.constants.player.SPRITE_WIDTH * this.constants.player.SCALE_FACTOR,
-														this.constants.player.SPRITE_HEIGHT * this.constants.player.SCALE_FACTOR);
+		this.controls = new starfighter.Controls(this, this.constants);
 
-		this.position = new window.starfighter.Vector(this.context.canvas.width / 2 - this.dimensions.x / 2,
-													  this.context.canvas.height - this.dimensions.y);
+		var sizeX = player.SPRITE_WIDTH * player.SCALE_FACTOR;
+		var sizeY = player.SPRITE_HEIGHT * player.SCALE_FACTOR;
+		this.dimensions = new starfighter.Vector(sizeX, sizeY);
 
-		this.velocity = new window.starfighter.Vector(this.constants.player.VELOCITY_X, this.constants.player.VELOCITY_Y);
+		var startX = this.context.canvas.width / 2 - this.dimensions.x / 2;
+		var startY = this.context.canvas.height - this.dimensions.y;
+		this.position = new starfighter.Vector(startX, startY);
+
+		this.velocity = new starfighter.Vector(player.VELOCITY_X, player.VELOCITY_Y);
+		this.immune = false;
+		this.dead = false;
 	};
 
-	Player.prototype = Object.create(window.starfighter.Actor.prototype);
+	Player.prototype = Object.create(starfighter.Actor.prototype);
 
 	Player.prototype.render = function() {
-		this.context.drawImage(this.sheet,
-							   this.constants.player.SPRITE_X, this.constants.player.SPRITE_Y,
-							   this.constants.player.SPRITE_WIDTH, this.constants.player.SPRITE_HEIGHT,
-							   this.position.x, this.position.y,
-							   this.dimensions.x, this.dimensions.y);
+		var player = this.constants.player;
+
+		if (!this.dead) {
+			this.context.save();
+			if (this.immune)
+				this.context.globalAlpha = player.ALPHA;
+
+			this.context.drawImage(this.sheet,
+							       player.SPRITE_X, player.SPRITE_Y,
+							       player.SPRITE_WIDTH, player.SPRITE_HEIGHT,
+							       this.position.x, this.position.y,
+							       this.dimensions.x, this.dimensions.y);
+			this.context.restore();
+		}
 	};
 
 	Player.prototype.translate = function() {
-		this.keyboard();
+		if (!this.dead)
+			this.keyboard();
 	};
 
 	Player.prototype.keyboard = function() {
@@ -60,9 +76,9 @@
 	};
 
 	Player.prototype.fire = function() {
-		var start = new window.starfighter.Vector(this.position.x + this.dimensions.x / 2, this.position.y);
+		var start = new starfighter.Vector(this.position.x + this.dimensions.x / 2, this.position.y);
 
-		this.actors[this.constants.game.LASERS].push(new window.starfighter.Laser(this.settings, start));
+		this.actors[this.constants.game.LASERS].push(new starfighter.Laser(this.settings, start));
 	};
 
 })();
