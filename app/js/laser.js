@@ -86,6 +86,9 @@
 		this.active = false;
 		meteor.hp -= this.constants.laser.DAMAGE;
 		meteor.hit = true;
+
+		var score = this.actors[this.constants.game.SCORE][0];
+		score.points += this.constants.meteor.SCORE;
 	};
 
 	Laser.prototype.meteorDead = function(meteor) {
@@ -93,6 +96,9 @@
 
 		var particle = new starfighter.Particle(this.settings, this.meteorCenter(meteor), this.meteorRadius(meteor), "meteor");
 		this.actors[this.constants.game.PARTICLES].push(particle);
+
+		var score = this.actors[this.constants.game.SCORE][0];
+		score.points += this.constants.meteor[meteor.type].SCORE;
 	};
 
 })();

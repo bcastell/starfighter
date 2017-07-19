@@ -26,7 +26,10 @@
 		context.save();
 		context.font = lives.FONT;
 		context.fillStyle = lives.FILL_STYLE;
-		context.fillText("x " + this.count, lives.SPRITE_WIDTH * 1.4, context.canvas.height - lives.SPRITE_HEIGHT / 2);
+		context.shadowColor = lives.SHADOW_COLOR;
+		context.shadowOffsetX = lives.SHADOW_OFFSET_X;
+		context.shadowOffsetY = lives.SHADOW_OFFSET_Y;
+		context.fillText("x" + this.count, lives.SPRITE_WIDTH * 1.3, context.canvas.height - lives.SPRITE_HEIGHT / 2);
 		context.restore();
 	};
 

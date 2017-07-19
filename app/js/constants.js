@@ -7,10 +7,11 @@
 			OVERFLOW     : 256,
 			PLAYER       : 0,
 			LIVES		 : 1,
-			PARTICLES    : 2,
-			METEORS      : 3,
-			LASERS       : 4,
-			SPAWNER      : 5
+			SCORE		 : 2,
+			PARTICLES    : 3,
+			METEORS      : 4,
+			LASERS       : 5,
+			SPAWNER      : 6
 		};
 
 		this.controls = {
@@ -50,12 +51,14 @@
 		};
 
 		this.meteor = {
+			SCORE : 5,
 			big : {
 				SPRITE_WIDTH  : 101,
 				SPRITE_HEIGHT : 84,
 				VELOCITY_X    : 0,
 				VELOCITY_Y    : 4,
 				HP			  : 8,
+				SCORE		  : 40,
 				normal : {
 					SPRITE_X      : 224,
 					SPRITE_Y      : 664
@@ -71,6 +74,7 @@
 				VELOCITY_X    : 0,
 				VELOCITY_Y    : 6,
 				HP            : 6,
+				SCORE		  : 30,
 				normal : {
 					SPRITE_X : 651,
 					SPRITE_Y : 447
@@ -86,6 +90,7 @@
 				VELOCITY_X    : 0,
 				VELOCITY_Y    : 8,
 				HP			  : 4,
+				SCORE		  : 20,
 				normal : {
 					SPRITE_X : 406,
 					SPRITE_Y : 234
@@ -101,6 +106,7 @@
 				VELOCITY_X    : 0,
 				VELOCITY_Y    : 10,
 				HP			  : 2,
+				SCORE		  : 10,
 				normal : {
 					SPRITE_X : 346,
 					SPRITE_Y : 814
@@ -142,13 +148,26 @@
 		};
 
 		this.lives = {
-			SPRITE_X       : 482,
-			SPRITE_Y       : 358,
-			SPRITE_WIDTH   : 33,
-			SPRITE_HEIGHT  : 26,
-			STARTING_LIVES : 3,
-			FONT		   : "18px sans-serif",
-			FILL_STYLE	   : "#74b1be"
+			SPRITE_X        : 482,
+			SPRITE_Y        : 358,
+			SPRITE_WIDTH    : 33,
+			SPRITE_HEIGHT   : 26,
+			STARTING_LIVES  : 3,
+			FONT		    : "32px VT323",
+			FILL_STYLE	    : "#00bfff",
+			SHADOW_COLOR    : "#bf5700",
+			SHADOW_OFFSET_X : 2,
+			SHADOW_OFFSET_Y : 2
+		};
+
+		this.score = {
+			FONT			: "32px VT323",
+			FILL_STYLE      : "#ffcc00",
+			TEXT_ALIGN      : "right",
+			SHADOW_COLOR    : "#990000",
+			SHADOW_OFFSET_X : 2,
+			SHADOW_OFFSET_Y : 2,
+			OFFSET			: 8
 		};
 	};
 
