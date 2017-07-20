@@ -50,7 +50,7 @@
 		settings.sheet = new Image();
 		settings.sheet.src = settings.constants.game.SPRITE_SHEET;
 
-		settings.actors = [[], [], [], [], [], [], []];
+		settings.actors = [[], [], [], [], [], [], [], []];
 		settings.actors[settings.constants.game.PLAYER].push(new starfighter.Player(settings));
 		settings.actors[settings.constants.game.LIVES].push(new starfighter.Lives(settings));
 		settings.actors[settings.constants.game.SCORE].push(new starfighter.Score(settings));

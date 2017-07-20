@@ -6,12 +6,13 @@
 			SPRITE_SHEET : "images/sheet.png",
 			OVERFLOW     : 256,
 			PLAYER       : 0,
-			LIVES		 : 1,
-			SCORE		 : 2,
-			PARTICLES    : 3,
-			METEORS      : 4,
-			LASERS       : 5,
-			SPAWNER      : 6
+			POWERUPS	 : 1,
+			LIVES		 : 2,
+			SCORE		 : 3,
+			PARTICLES    : 4,
+			METEORS      : 5,
+			LASERS       : 6,
+			SPAWNER      : 7
 		};
 
 		this.controls = {
@@ -168,6 +169,32 @@
 			SHADOW_OFFSET_X : 2,
 			SHADOW_OFFSET_Y : 2,
 			OFFSET			: 8
+		};
+
+		this.powerup = {
+			OFFENSE    : 0.45,
+			DEFENSE    : 0.90,
+			FREQUENCY  : 10000,
+			VELOCITY_X : 0,
+			VELOCITY_Y : 2,
+			offense : {
+				SPRITE_X	  : 809,
+				SPRITE_Y	  : 437,
+				SPRITE_WIDTH  : 19,
+				SPRITE_HEIGHT : 30
+			},
+			defense : {
+				SPRITE_X	  : 778,
+				SPRITE_Y	  : 824,
+				SPRITE_WIDTH  : 30,
+				SPRITE_HEIGHT : 30
+			},
+			life : {
+				SPRITE_X	  : 222,
+				SPRITE_Y	  : 108,
+				SPRITE_WIDTH  : 22,
+				SPRITE_HEIGHT : 21
+			}
 		};
 	};
 
