@@ -189,6 +189,11 @@
 				FILL_STYLE   : "red",
 				SHADOW_COLOR : "grey",
 				RADIUS		 : 80
+			},
+			life : {
+				FILL_STYLE	 : "green",
+				SHADOW_COLOR : "grey",
+				RADIUS		 : 80
 			}
 		};
 

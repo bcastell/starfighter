@@ -43,22 +43,23 @@
 		this.powerupTimer = setInterval(function() {
 			var Powerup = starfighter.Powerup;
 			var powerups = that.actors[that.constants.game.POWERUPS];
+			var kind = that.constants.powerup.kind;
 
 			var id = Math.random();
 			if (id <= that.constants.powerup.OFFENSE) {
-				var type = "offense";
+				var type = kind.OFFENSE;
 				var offense = new Powerup(that.settings, type, that.start("powerup", type));
 				powerups.push(offense);
 			}
 
 			else if (id <= that.constants.powerup.DEFENSE) {
-				var type = "defense";
+				var type = kind.DEFENSE;
 				var defense = new Powerup(that.settings, type, that.start("powerup", type));
 				powerups.push(defense);
 			}
 
 			else {
-				var type = "life";
+				var type = kind.LIFE;
 				var life = new Powerup(that.settings, type, that.start("powerup", type));
 				powerups.push(life);
 			}

@@ -33,5 +33,9 @@
 		context.restore();
 	};
 
+	Lives.prototype.extraLife = function() {
+		++this.count;
+	};
+
 })();
 

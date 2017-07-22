@@ -49,7 +49,7 @@
 
 						break;
 					case kind.LIFE:
-
+						this.life();
 				}
 
 			}
@@ -108,7 +108,18 @@
 	};
 
 	Powerup.prototype.life = function() {
+		var player = this.actors[this.constants.game.PLAYER][0];
+		var controls = player.controls;
+		var powerup = this.constants.powerup;
 
+		var x = player.position.x + player.dimensions.x / 2;
+		var y = player.position.y + player.dimensions.y / 2;
+		var center = new starfighter.Vector(x, y);
+
+		var particle = new starfighter.Particle(this.settings, center, this.constants.particle.life.RADIUS, powerup.kind.LIFE);
+		this.actors[this.constants.game.PARTICLES].push(particle);
+
+		this.actors[this.constants.game.LIVES][0].extraLife();
 	};
 
 })();
