@@ -28,27 +28,66 @@
 		};
 
 		this.player = {
-			SPRITE_X       : 211,
-			SPRITE_Y       : 941,
-			SPRITE_WIDTH   : 99,
-			SPRITE_HEIGHT  : 75,
-			SCALE_FACTOR   : 0.5,
-			VELOCITY_X     : 6,
-			VELOCITY_Y     : 6,
-			FIRE_FREQUENCY : 160,
-			ALPHA          : 0.5,
-			REVIVE_DELAY   : 2000,
-			IMMUNE_DELAY   : 2000
+			blue : {
+				SPRITE_X : 211,
+				SPRITE_Y : 941
+			},
+			red : {
+				SPRITE_X : 224,
+				SPRITE_Y : 832
+			},
+			SPRITE_WIDTH     : 99,
+			SPRITE_HEIGHT    : 75,
+			SCALE_FACTOR     : 0.5,
+			VELOCITY_X       : 6,
+			VELOCITY_Y       : 6,
+			FIRE_FREQ		 : 160,
+			TRIPLE_FIRE_FREQ : 100,
+			ALPHA            : 0.5,
+			REVIVE_DELAY     : 2000,
+			IMMUNE_DELAY     : 2000
 		};
 
 		this.laser = {
-			SPRITE_X      : 856,
-			SPRITE_Y      : 421,
 			SPRITE_WIDTH  : 9,
 			SPRITE_HEIGHT : 54,
-			VELOCITY_X    : 0,
-			VELOCITY_Y    : 16,
-			DAMAGE        : 1
+			direction : {
+				LEFT   : "left",
+				CENTER : "center",
+				RIGHT  : "right"
+			},
+			color : {
+				BLUE : "blue",
+				RED  : "red"
+			},
+			blue : {
+				SPRITE_X : 856,
+				SPRITE_Y : 421,
+				DAMAGE	 : 1,
+				center : {
+					VELOCITY_X : 0,
+					VELOCITY_Y : 16
+				}
+			},
+			red : {
+				SPRITE_X : 858,
+				SPRITE_Y : 230,
+				DAMAGE   : 2,
+				left : {
+					VELOCITY_X : -8,
+					VELOCITY_Y : 16,
+					ANGLE	   : -Math.PI / 8
+				},
+				center : {
+					VELOCITY_X : 0,
+					VELOCITY_Y : 16
+				},
+				right : {
+					VELOCITY_X : 8,
+					VELOCITY_Y : 16,
+					ANGLE	   : Math.PI / 8
+				}
+			}
 		};
 
 		this.meteor = {
@@ -145,6 +184,11 @@
 				FILL_STYLE   : "#74b1be",
 				SHADOW_COLOR : "grey",
 				RADIUS       : 80
+			},
+			offense : {
+				FILL_STYLE   : "red",
+				SHADOW_COLOR : "grey",
+				RADIUS		 : 80
 			}
 		};
 
@@ -174,14 +218,20 @@
 		this.powerup = {
 			OFFENSE    : 0.45,
 			DEFENSE    : 0.90,
-			FREQUENCY  : 10000,
+			FREQUENCY  : 2000,
 			VELOCITY_X : 0,
 			VELOCITY_Y : 2,
+			kind : {
+				OFFENSE : "offense",
+				DEFENSE : "defense",
+				LIFE	: "life"
+			},
 			offense : {
 				SPRITE_X	  : 809,
 				SPRITE_Y	  : 437,
 				SPRITE_WIDTH  : 19,
-				SPRITE_HEIGHT : 30
+				SPRITE_HEIGHT : 30,
+				TIMEOUT		  : 5000
 			},
 			defense : {
 				SPRITE_X	  : 778,

@@ -109,6 +109,13 @@
 			var particle = new starfighter.Particle(that.settings, that.playerCenter(), constants.particle.revive.RADIUS, "revive");
 			that.actors[constants.game.PARTICLES].push(particle);
 
+			player.red = false;
+			player.controls.triplefiring = false;
+			if (player.controls.firing) {
+				player.controls.ceasefire();
+				player.controls.fire();
+			}
+
 			setTimeout(function() {
 				player.immune = false;
 			}, constants.player.IMMUNE_DELAY);

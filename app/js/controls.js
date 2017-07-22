@@ -8,6 +8,7 @@
 		this.moveRight = false;
 		this.moveUp = false;
 		this.moveDown = false;
+		this.triplefiring = false;
 
 		this.press();
 		this.release();
@@ -35,7 +36,7 @@
 					that.moveDown = true;
 					break;
 				case that.constants.controls.spaceBar:
-					that.fire();
+					that.triplefiring ? that.triplefire() : that.fire();
 			}
 		};
 	};
@@ -76,7 +77,20 @@
 			var that = this;
 			this.firing = setInterval(function() {
 				that.player.fire();
-			}, that.constants.player.FIRE_FREQUENCY);
+			}, that.constants.player.FIRE_FREQ);
+		}
+	};
+
+	Controls.prototype.triplefire = function() {
+		if (!this.player.dead) {
+			if (this.firing) return;
+
+			this.player.triplefire();
+
+			var that = this;
+			this.firing = setInterval(function() {
+				that.player.triplefire();
+			}, that.constants.player.TRIPLE_FIRE_FREQ);
 		}
 	};
 

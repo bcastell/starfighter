@@ -1,28 +1,42 @@
 (function() {
 	var starfighter = window.starfighter = window.starfighter || {};
 
-	var Laser = starfighter.Laser = function(settings, start) {
+	var Laser = starfighter.Laser = function(settings, start, type, direction) {
 		starfighter.Actor.call(this, settings);
 
 		var laser = this.constants.laser;
 
+		this.type = type;
+		this.direction = direction;
 		this.dimensions = new starfighter.Vector(laser.SPRITE_WIDTH, laser.SPRITE_HEIGHT);
-		this.position = new starfighter.Vector(start.x - this.dimensions.x / 2, start.y - this.dimensions.y);
-		this.velocity = new starfighter.Vector(laser.VELOCITY_X, laser.VELOCITY_Y);
+		this.position = start;
+		this.velocity = new starfighter.Vector(laser[type][direction].VELOCITY_X, laser[type][direction].VELOCITY_Y);
+		this.damage = laser[type].DAMAGE;
 		this.active = true;
 	};
 
 	Laser.prototype = Object.create(starfighter.Actor.prototype);
 
 	Laser.prototype.render = function() {
-		var laser = this.constants.laser;
-
 		if (this.active) {
-			this.context.drawImage(this.sheet,
-								   laser.SPRITE_X, laser.SPRITE_Y,
-								   laser.SPRITE_WIDTH, laser.SPRITE_HEIGHT,
-								   this.position.x, this.position.y,
-								   this.dimensions.x, this.dimensions.y);
+			var laser = this.constants.laser;
+			var context = this.context;
+			var dx = this.position.x;
+			var dy = this.position.y;
+
+			context.save();
+			if (this.direction != laser.direction.CENTER) {
+				context.translate(this.position.x, this.position.y + this.dimensions.y);
+				context.rotate(laser[this.type][this.direction].ANGLE);
+				dx = 0;
+				dy = -this.dimensions.y;
+			}
+			context.drawImage(this.sheet,
+							  laser[this.type].SPRITE_X, laser[this.type].SPRITE_Y,
+							  laser.SPRITE_WIDTH, laser.SPRITE_HEIGHT,
+							  dx, dy,
+							  this.dimensions.x, this.dimensions.y);
+			context.restore();
 		}
 	};
 
@@ -36,6 +50,7 @@
 	};
 
 	Laser.prototype.up = function() {
+		this.position.x += this.velocity.x;
 		this.position.y -= this.velocity.y;
 	};
 
@@ -48,7 +63,7 @@
 					if (that.collideMeteor(meteor)) {
 						that.meteorDamaged(meteor);
 
-						if (meteor.hp == 0) that.meteorDead(meteor);
+						if (meteor.hp <= 0) that.meteorDead(meteor);
 					}
 				}
 			});
@@ -84,7 +99,7 @@
 
 	Laser.prototype.meteorDamaged = function(meteor) {
 		this.active = false;
-		meteor.hp -= this.constants.laser.DAMAGE;
+		meteor.hp -= this.damage;
 		meteor.hit = true;
 
 		var score = this.actors[this.constants.game.SCORE][0];

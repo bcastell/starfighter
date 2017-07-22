@@ -19,20 +19,24 @@
 		this.velocity = new starfighter.Vector(player.VELOCITY_X, player.VELOCITY_Y);
 		this.immune = false;
 		this.dead = false;
+		this.red = false;
 	};
 
 	Player.prototype = Object.create(starfighter.Actor.prototype);
 
 	Player.prototype.render = function() {
-		var player = this.constants.player;
-
 		if (!this.dead) {
+			var player = this.constants.player;
+
 			this.context.save();
 			if (this.immune)
 				this.context.globalAlpha = player.ALPHA;
 
+			var spriteX = this.red ? player.red.SPRITE_X : player.blue.SPRITE_X;
+			var spriteY = this.red ? player.red.SPRITE_Y : player.blue.SPRITE_Y;
+
 			this.context.drawImage(this.sheet,
-							       player.SPRITE_X, player.SPRITE_Y,
+							       spriteX, spriteY,
 							       player.SPRITE_WIDTH, player.SPRITE_HEIGHT,
 							       this.position.x, this.position.y,
 							       this.dimensions.x, this.dimensions.y);
@@ -76,9 +80,32 @@
 	};
 
 	Player.prototype.fire = function() {
-		var start = new starfighter.Vector(this.position.x + this.dimensions.x / 2, this.position.y);
+		var direction = this.constants.laser.direction;
+		var color = this.constants.laser.color;
 
-		this.actors[this.constants.game.LASERS].push(new starfighter.Laser(this.settings, start));
+		var laser = new starfighter.Laser(this.settings, this.laserStart(), color.BLUE, direction.CENTER);
+		this.actors[this.constants.game.LASERS].push(laser);
+	};
+
+	Player.prototype.triplefire = function() {
+		var lasers = this.actors[this.constants.game.LASERS];
+		var direction = this.constants.laser.direction;
+		var color = this.constants.laser.color;
+
+		var left = new starfighter.Laser(this.settings, this.laserStart(), color.RED, direction.LEFT);
+		var center = new starfighter.Laser(this.settings, this.laserStart(), color.RED, direction.CENTER);
+		var right = new starfighter.Laser(this.settings, this.laserStart(), color.RED, direction.RIGHT);
+
+		lasers.push(left);
+		lasers.push(center);
+		lasers.push(right);
+	};
+
+	Player.prototype.laserStart = function() {
+		var x = this.position.x + this.dimensions.x / 2 - this.constants.laser.SPRITE_WIDTH / 2;
+		var y = this.position.y - this.constants.laser.SPRITE_HEIGHT;
+
+		return new starfighter.Vector(x, y);
 	};
 
 })();
