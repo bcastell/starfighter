@@ -20,6 +20,7 @@
 		this.immune = false;
 		this.dead = false;
 		this.red = false;
+		this.shielded = false;
 	};
 
 	Player.prototype = Object.create(starfighter.Actor.prototype);
@@ -27,6 +28,7 @@
 	Player.prototype.render = function() {
 		if (!this.dead) {
 			var player = this.constants.player;
+			var shield = this.constants.powerup.defense.shield;
 
 			this.context.save();
 			if (this.immune)
@@ -41,6 +43,13 @@
 							       this.position.x, this.position.y,
 							       this.dimensions.x, this.dimensions.y);
 			this.context.restore();
+
+			if (this.shielded)
+				this.context.drawImage(this.sheet,
+									   shield.SPRITE_X, shield.SPRITE_Y,
+									   shield.SPRITE_WIDTH, shield.SPRITE_HEIGHT,
+									   this.position.x + this.dimensions.x / 2 - shield.OFFSET_X, this.position.y - shield.OFFSET_Y,
+									   shield.SPRITE_WIDTH * shield.SCALE_FACTOR, shield.SPRITE_HEIGHT * shield.SCALE_FACTOR);
 		}
 	};
 

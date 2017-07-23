@@ -47,7 +47,7 @@
 		if (this.active) {
 			var player = this.actors[this.constants.game.PLAYER][0];
 
-			if (this.collidePlayer() && !player.immune) {
+			if (this.collidePlayer() && !player.immune && !player.shielded) {
 				this.playerDead();
 				this.playerRevive();
 			}

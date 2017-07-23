@@ -190,6 +190,12 @@
 				SHADOW_COLOR : "grey",
 				RADIUS		 : 80
 			},
+			defense : {
+				FILL_STYLE   : "purple",
+				SHADOW_COLOR : "grey",
+				RADIUS		 : 80
+			},
+
 			life : {
 				FILL_STYLE	 : "green",
 				SHADOW_COLOR : "grey",
@@ -242,7 +248,17 @@
 				SPRITE_X	  : 778,
 				SPRITE_Y	  : 824,
 				SPRITE_WIDTH  : 30,
-				SPRITE_HEIGHT : 30
+				SPRITE_HEIGHT : 30,
+				TIMEOUT		  : 5000,
+				shield : {
+					SPRITE_X	  : 0,
+					SPRITE_Y	  : 412,
+					SPRITE_WIDTH  : 133,
+					SPRITE_HEIGHT : 108,
+					SCALE_FACTOR  : 0.7,
+					OFFSET_X	  : 46,
+					OFFSET_Y	  : 10
+				}
 			},
 			life : {
 				SPRITE_X	  : 222,
