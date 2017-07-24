@@ -18,17 +18,17 @@
 	Powerup.prototype.render = function() {
 		if (this.active) {
 			var powerup = this.constants.powerup[this.type];
+
 			this.context.drawImage(this.sheet,
-								   powerup.SPRITE_X, powerup.SPRITE_Y,
-							       powerup.SPRITE_WIDTH, powerup.SPRITE_HEIGHT,
-							       this.position.x, this.position.y,
-							       this.dimensions.x, this.dimensions.y);
+				powerup.SPRITE_X, powerup.SPRITE_Y,
+				powerup.SPRITE_WIDTH, powerup.SPRITE_HEIGHT,
+				this.position.x, this.position.y,
+				this.dimensions.x, this.dimensions.y);
 		}
 	};
 
 	Powerup.prototype.translate = function() {
-		if (this.active)
-			this.down();
+		if (this.active) this.down();
 	};
 
 	Powerup.prototype.down = function() {
@@ -37,21 +37,23 @@
 
 	Powerup.prototype.collide = function() {
 		if (this.active) {
-			if (this.collidePlayer()) {
+			var player = this.actors[this.constants.game.PLAYER][0];
+			var powerup = this.constants.powerup;
+			var kind = this.constants.powerup.kind;
+
+			if (this.collidePlayer() && !player.dead) {
 				this.active = false;
 
-				var kind = this.constants.powerup.kind;
 				switch (this.type) {
 					case kind.OFFENSE:
-						this.offense();
+						this.offense(player, powerup);
 						break;
 					case kind.DEFENSE:
-						this.defense();
+						this.defense(player, powerup);
 						break;
 					case kind.LIFE:
-						this.life();
+						this.life(player, powerup);
 				}
-
 			}
 		}
 	};
@@ -74,44 +76,19 @@
 		return entered;
 	};
 
-	Powerup.prototype.offense = function() {
-		var player = this.actors[this.constants.game.PLAYER][0];
-		var controls = player.controls;
-		var powerup = this.constants.powerup;
-
-		var x = player.position.x + player.dimensions.x / 2;
-		var y = player.position.y + player.dimensions.y / 2;
-		var center = new starfighter.Vector(x, y);
-
-		var particle = new starfighter.Particle(this.settings, center, this.constants.particle.offense.RADIUS, powerup.kind.OFFENSE);
+	Powerup.prototype.offense = function(player, powerup) {
+		var particle = new starfighter.Particle(this.settings, player.center(), this.constants.particle.offense.RADIUS, powerup.kind.OFFENSE);
 		this.actors[this.constants.game.PARTICLES].push(particle);
 
-		player.red = true;
-		controls.triplefiring = true;
-		if (controls.firing) {
-			controls.ceasefire();
-			controls.triplefire();
-		}
+		player.setFireMode(true);
 
 		setTimeout(function() {
-			player.red = false;
-			controls.triplefiring = false;
-			if (controls.firing) {
-				controls.ceasefire();
-				controls.fire();
-			}
+			player.setFireMode(false);
 		}, powerup.offense.TIMEOUT);
 	};
 
-	Powerup.prototype.defense = function() {
-		var player = this.actors[this.constants.game.PLAYER][0];
-		var powerup = this.constants.powerup;
-
-		var x = player.position.x + player.dimensions.x / 2;
-		var y = player.position.y + player.dimensions.y / 2;
-		var center = new starfighter.Vector(x, y);
-
-		var particle = new starfighter.Particle(this.settings, center, this.constants.particle.defense.RADIUS, powerup.kind.DEFENSE);
+	Powerup.prototype.defense = function(player, powerup) {
+		var particle = new starfighter.Particle(this.settings, player.center(), this.constants.particle.defense.RADIUS, powerup.kind.DEFENSE);
 		this.actors[this.constants.game.PARTICLES].push(particle);
 
 		player.shielded = true;
@@ -120,18 +97,11 @@
 		}, powerup.defense.TIMEOUT);
 	};
 
-	Powerup.prototype.life = function() {
-		var player = this.actors[this.constants.game.PLAYER][0];
-		var powerup = this.constants.powerup;
-
-		var x = player.position.x + player.dimensions.x / 2;
-		var y = player.position.y + player.dimensions.y / 2;
-		var center = new starfighter.Vector(x, y);
-
-		var particle = new starfighter.Particle(this.settings, center, this.constants.particle.life.RADIUS, powerup.kind.LIFE);
+	Powerup.prototype.life = function(player, powerup) {
+		var particle = new starfighter.Particle(this.settings, player.center(), this.constants.particle.life.RADIUS, powerup.kind.LIFE);
 		this.actors[this.constants.game.PARTICLES].push(particle);
 
-		this.actors[this.constants.game.LIVES][0].extraLife();
+		this.actors[this.constants.game.LIVES][0].gainLife();
 	};
 
 })();

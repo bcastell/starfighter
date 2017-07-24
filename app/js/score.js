@@ -24,5 +24,9 @@
 		context.restore();
 	};
 
+	Score.prototype.raise = function(points) {
+		this.points += points;
+	};
+
 })();
 

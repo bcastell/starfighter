@@ -18,11 +18,10 @@
 		var lives = this.constants.lives;
 
 		context.drawImage(this.sheet,
-						  lives.SPRITE_X, lives.SPRITE_Y,
-						  lives.SPRITE_WIDTH, lives.SPRITE_HEIGHT,
-						  this.position.x, this.position.y,
-						  lives.SPRITE_WIDTH, lives.SPRITE_HEIGHT);
-
+			lives.SPRITE_X, lives.SPRITE_Y,
+			lives.SPRITE_WIDTH, lives.SPRITE_HEIGHT,
+			this.position.x, this.position.y,
+			lives.SPRITE_WIDTH, lives.SPRITE_HEIGHT);
 		context.save();
 		context.font = lives.FONT;
 		context.fillStyle = lives.FILL_STYLE;
@@ -33,8 +32,12 @@
 		context.restore();
 	};
 
-	Lives.prototype.extraLife = function() {
+	Lives.prototype.gainLife = function() {
 		++this.count;
+	};
+
+	Lives.prototype.loseLife = function() {
+		--this.count;
 	};
 
 })();

@@ -11,30 +11,33 @@
 	};
 
 	Game.prototype.render = function() {
-		this.settings.context.clearRect(0, 0, this.settings.context.canvas.width, this.settings.context.canvas.height);
+		var context = this.settings.context;
+		var actors = this.settings.actors;
 
-		this.settings.actors.forEach(function(type) {
+		context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+
+		actors.forEach(function(type) {
 			type.forEach(function(actor) {
 				actor.render();
 			});
 		});
 
-		this.settings.actors.forEach(function(type) {
+		actors.forEach(function(type) {
 			type.forEach(function(actor) {
 				actor.collide();
 			});
 		});
 
-		this.settings.actors.forEach(function(type) {
+		actors.forEach(function(type) {
 			type.forEach(function(actor) {
 				actor.translate();
 			});
 		});
 
 		var that = this;
-		this.settings.actors.forEach(function(type) {
+		actors.forEach(function(type) {
 			if (type.length == that.settings.constants.game.OVERFLOW)
-				type.splice(0, that.settings.constants.game.OVERFLOW - 1);
+				type.splice(0, that.settings.constants.game.OVERFLOW / 2);
 		});
 
 		requestAnimationFrame(this.render.bind(this));

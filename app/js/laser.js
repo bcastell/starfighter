@@ -21,6 +21,7 @@
 		if (this.active) {
 			var laser = this.constants.laser;
 			var context = this.context;
+
 			var dx = this.position.x;
 			var dy = this.position.y;
 
@@ -32,10 +33,10 @@
 				dy = -this.dimensions.y;
 			}
 			context.drawImage(this.sheet,
-							  laser[this.type].SPRITE_X, laser[this.type].SPRITE_Y,
-							  laser.SPRITE_WIDTH, laser.SPRITE_HEIGHT,
-							  dx, dy,
-							  this.dimensions.x, this.dimensions.y);
+				laser[this.type].SPRITE_X, laser[this.type].SPRITE_Y,
+				laser.SPRITE_WIDTH, laser.SPRITE_HEIGHT,
+				dx, dy,
+				this.dimensions.x, this.dimensions.y);
 			context.restore();
 		}
 	};
@@ -86,34 +87,23 @@
 		return entered;
 	};
 
-	Laser.prototype.meteorCenter = function(meteor) {
-		var x = meteor.position.x + meteor.dimensions.x / 2;
-		var y = meteor.position.y + meteor.dimensions.y / 2;
-
-		return new starfighter.Vector(x, y);
-	};
-
-	Laser.prototype.meteorRadius = function(meteor) {
-		return Math.sqrt(Math.pow(meteor.dimensions.x, 2) + Math.pow(meteor.dimensions.y, 2));
-	};
-
 	Laser.prototype.meteorDamaged = function(meteor) {
 		this.active = false;
 		meteor.hp -= this.damage;
 		meteor.hit = true;
 
 		var score = this.actors[this.constants.game.SCORE][0];
-		score.points += this.constants.meteor.SCORE;
+		score.raise(this.constants.meteor.SCORE);
 	};
 
 	Laser.prototype.meteorDead = function(meteor) {
 		meteor.active = false;
 
-		var particle = new starfighter.Particle(this.settings, this.meteorCenter(meteor), this.meteorRadius(meteor), "meteor");
+		var particle = new starfighter.Particle(this.settings, meteor.center(), meteor.radius(), "meteor");
 		this.actors[this.constants.game.PARTICLES].push(particle);
 
 		var score = this.actors[this.constants.game.SCORE][0];
-		score.points += this.constants.meteor[meteor.type].SCORE;
+		score.raise(this.constants.meteor[meteor.type].SCORE);
 	};
 
 })();

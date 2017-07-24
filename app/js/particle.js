@@ -16,9 +16,9 @@
 	Particle.prototype = Object.create(starfighter.Actor.prototype);
 
 	Particle.prototype.render = function() {
-		var context = this.context;
-
 		if (this.active) {
+			var context = this.context;
+
 			context.save();
 
 			context.globalCompositeOperation = "destination-over";

@@ -16,26 +16,27 @@
 
 	Controls.prototype.press = function() {
 		var that = this;
+		var controls = that.constants.controls;
 
 		document.onkeydown = function(event) {
 			switch (event.keyCode) {
-				case that.constants.controls.A:
-				case that.constants.controls.leftArrow:
+				case controls.A:
+				case controls.leftArrow:
 					that.moveLeft = true;
 					break;
-				case that.constants.controls.D:
-				case that.constants.controls.rightArrow:
+				case controls.D:
+				case controls.rightArrow:
 					that.moveRight = true;
 					break;
-				case that.constants.controls.W:
-				case that.constants.controls.upArrow:
+				case controls.W:
+				case controls.upArrow:
 					that.moveUp = true;
 					break;
-				case that.constants.controls.S:
-				case that.constants.controls.downArrow:
+				case controls.S:
+				case controls.downArrow:
 					that.moveDown = true;
 					break;
-				case that.constants.controls.spaceBar:
+				case controls.spaceBar:
 					that.triplefiring ? that.triplefire() : that.fire();
 			}
 		};
@@ -43,26 +44,27 @@
 
 	Controls.prototype.release = function() {
 		var that = this;
+		var controls = that.constants.controls;
 
 		document.onkeyup = function(event) {
 			switch (event.keyCode) {
-				case that.constants.controls.A:
-				case that.constants.controls.leftArrow:
+				case controls.A:
+				case controls.leftArrow:
 					that.moveLeft = false;
 					break;
-				case that.constants.controls.D:
-				case that.constants.controls.rightArrow:
+				case controls.D:
+				case controls.rightArrow:
 					that.moveRight = false;
 					break;
-				case that.constants.controls.W:
-				case that.constants.controls.upArrow:
+				case controls.W:
+				case controls.upArrow:
 					that.moveUp = false;
 					break;
-				case that.constants.controls.S:
-				case that.constants.controls.downArrow:
+				case controls.S:
+				case controls.downArrow:
 					that.moveDown = false;
 					break;
-				case that.constants.controls.spaceBar:
+				case controls.spaceBar:
 					that.ceasefire();
 			}
 		};
