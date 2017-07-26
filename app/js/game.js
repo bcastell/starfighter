@@ -62,7 +62,7 @@
 		return settings;
 	};
 
-	new Game();
+	//new Game();
 
 })();
 

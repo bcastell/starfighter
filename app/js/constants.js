@@ -16,15 +16,15 @@
 		};
 
 		this.controls = {
-			A		   : 65,
-			D		   : 68,
-			W          : 87,
-			S          : 83,
-			leftArrow  : 37,
-			rightArrow : 39,
-			upArrow    : 38,
-			downArrow  : 40,
-			spaceBar   : 32
+			A		    : 65,
+			D		    : 68,
+			W           : 87,
+			S           : 83,
+			LEFT_ARROW  : 37,
+			RIGHT_ARROW : 39,
+			UP_ARROW    : 38,
+			DOWN_ARROW  : 40,
+			SPACEBAR    : 32
 		};
 
 		this.player = {
@@ -267,6 +267,100 @@
 				SPRITE_HEIGHT : 21
 			}
 		};
+
+		this.audio = {
+			fire : {
+				SOURCE		  : "audio/sfx_laser1.ogg",
+				PLAYBACK_RATE : 3,
+				VOLUME		  : 0.5
+			},
+			triplefire : {
+				SOURCE		  : "audio/sfx_laser2.ogg",
+				PLAYBACK_RATE : 3,
+				VOLUME		  : 0.5
+			},
+			shield_up : {
+				SOURCE		  : "audio/sfx_shieldUp.ogg",
+				PLAYBACK_RATE : 1,
+				VOLUME		  : 0.5
+			},
+			shield_down : {
+				SOURCE		  : "audio/sfx_shieldDown.ogg",
+				PLAYBACK_RATE : 1,
+				VOLUME		  : 0.5
+			}
+		};
+
+		this.menu = {
+			gradient : {
+				STOP_0 : "#16222a",
+				STOP_1 : "#3a6073"
+			},
+			title : {
+				NAME	     : "Starfighter",
+				FONT	     : "56px Bungee",
+				FILL_STYLE   : "grey",
+				STROKE_STYLE : "white"
+			},
+			desc : {
+				NAME		 : "ARCADE",
+				FONT		 : "52px Black Ops One",
+				FILL_STYLE	 : "#74b1be",
+				STROKE_STYLE : "#9feaf9"
+			},
+			cursor : {
+				SPRITE_X	  : 797,
+				SPRITE_Y	  : 173,
+				SPRITE_WIDTH  : 30,
+				SPRITE_HEIGHT : 33
+			},
+			button : {
+				SPRITE_X	  : 0,
+				SPRITE_Y	  : 78,
+				SPRITE_WIDTH  : 222,
+				SPRITE_HEIGHT : 39,
+				FONT		  : "28px Bungee",
+				FILL_STYLE	  : "#00bfff",
+				NAME		  : "PLAY"
+			},
+			movement : {
+				key : {
+					FILL_STYLE	 : "black",
+					STROKE_STYLE : "white",
+					LINE_WIDTH	 : 0.6,
+					WIDTH		 : 30,
+					HEIGHT		 : 30
+				},
+				letter : {
+					FONT	   : "18px Bungee",
+					FILL_STYLE : "white"
+				}
+			},
+			fire : {
+				key : {
+					FILL_STYLE	 : "black",
+					STROKE_STYLE : "white",
+					LINE_WIDTH	 : 0.6,
+					WIDTH		 : 110,
+					HEIGHT		 : 30
+				},
+				letter : {
+					FONT	   : "16px Bungee",
+					FILL_STYLE : "white"
+				}
+			},
+			instructions : {
+				FONT		 : "24px Bungee",
+				FILL_STYLE	 : "white",
+				STROKE_STYLE : "grey"
+			},
+			author : {
+				FONT	   : "12px Bungee",
+				FILL_STYLE : "#74b1be",
+				NAME	   : "Created by Brandon Castellanos"
+			}
+		};
+
 	};
 
 })();

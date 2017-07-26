@@ -21,22 +21,22 @@
 		document.onkeydown = function(event) {
 			switch (event.keyCode) {
 				case controls.A:
-				case controls.leftArrow:
+				case controls.LEFT_ARROW:
 					that.moveLeft = true;
 					break;
 				case controls.D:
-				case controls.rightArrow:
+				case controls.RIGHT_ARROW:
 					that.moveRight = true;
 					break;
 				case controls.W:
-				case controls.upArrow:
+				case controls.UP_ARROW:
 					that.moveUp = true;
 					break;
 				case controls.S:
-				case controls.downArrow:
+				case controls.DOWN_ARROW:
 					that.moveDown = true;
 					break;
-				case controls.spaceBar:
+				case controls.SPACEBAR:
 					that.triplefiring ? that.triplefire() : that.fire();
 			}
 		};
@@ -49,22 +49,22 @@
 		document.onkeyup = function(event) {
 			switch (event.keyCode) {
 				case controls.A:
-				case controls.leftArrow:
+				case controls.LEFT_ARROW:
 					that.moveLeft = false;
 					break;
 				case controls.D:
-				case controls.rightArrow:
+				case controls.RIGHT_ARROW:
 					that.moveRight = false;
 					break;
 				case controls.W:
-				case controls.upArrow:
+				case controls.UP_ARROW:
 					that.moveUp = false;
 					break;
 				case controls.S:
-				case controls.downArrow:
+				case controls.DOWN_ARROW:
 					that.moveDown = false;
 					break;
-				case controls.spaceBar:
+				case controls.SPACEBAR:
 					that.ceasefire();
 			}
 		};
