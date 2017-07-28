@@ -167,7 +167,7 @@
 				TINY_FREQUENCY   : 500
 			},
 			star : {
-				FREQUENCY : 2000
+				FREQUENCY : 500
 			}
 		};
 
@@ -362,6 +362,14 @@
 				FILL_STYLE : "#74b1be",
 				NAME	   : "Created by Brandon Castellanos"
 			}
+		};
+
+		this.star = {
+			FILL_STYLE	 : "white",
+			SHADOW_COLOR : "white",
+			LIMIT		 : 40,
+			STEP		 : 1,
+			VELOCITY_Y	 : 1
 		};
 
 	};

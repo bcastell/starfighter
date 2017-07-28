@@ -66,14 +66,6 @@
 		}, that.constants.powerup.FREQUENCY);
 	};
 
-	Spawner.prototype.star = function() {
-		var that = this;
-
-		this.starTimer = setInterval(function() {
-
-		}, 2000);
-	};
-
 	Spawner.prototype.randomInteger = function(min, max) {
 		min = Math.ceil(min);
 		max = Math.floor(max);

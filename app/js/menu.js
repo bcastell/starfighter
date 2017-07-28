@@ -61,12 +61,16 @@
 		var within = pos.x >= hitbox.west && pos.x <= hitbox.east;
 		within = within && pos.y >= hitbox.north && pos.y <= hitbox.south;
 
-		if (within) {
-			canvas.removeEventListener("mousedown", this.handler);
-			this.settings.context.clearRect(0, 0, this.settings.context.canvas.width, this.settings.context.canvas.height);
-			cancelAnimationFrame(this.frameID);
-			new starfighter.Game(this.settings, this.stars);
-		}
+		if (within) this.startGame();
+	};
+
+	Menu.prototype.startGame = function() {
+		var context = this.settings.context;
+
+		context.canvas.removeEventListener("mousedown", this.handler);
+		context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+		cancelAnimationFrame(this.frameID);
+		new starfighter.Game(this.settings, this.stars);
 	};
 
 	Menu.prototype.relativePos = function(event) {
@@ -83,18 +87,18 @@
 			x	   : Math.floor(Math.random() * this.settings.context.canvas.width),
 			y	   : 0,
 			blur   : Math.floor(Math.random() * 40),
-			radius : 1
+			radius : 1,
+			active : true
 		};
 	};
 
 	Menu.prototype.spawnStars = function() {
+		var firstStar = new starfighter.Star(this.settings, this.randomStar());
+		this.stars.push(firstStar);
+
 		var that = this;
-
-		var firstStar = new starfighter.TitleStar(that.randomStar(), that.settings);
-		that.stars.push(firstStar);
-
 		this.starTimer = setInterval(function() {
-			var star = new starfighter.TitleStar(that.randomStar(), that.settings);
+			var star = new starfighter.Star(that.settings, that.randomStar());
 			that.stars.push(star);
 		}, that.settings.constants.spawner.star.FREQUENCY);
 	};
@@ -107,8 +111,10 @@
 			star.translate();
 		});
 
-		if (this.stars.length == this.settings.constants.game.OVERFLOW)
-			this.stars.splice(0, this.settings.constants.game.OVERFLOW / 2);
+		var game = this.settings.constants.game;
+
+		if (this.stars.length == game.OVERFLOW)
+			this.stars.splice(0, game.OVERFLOW / 2);
 	};
 
 	Menu.prototype.renderBackground = function(context, menu) {

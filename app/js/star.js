@@ -1,50 +1,52 @@
 (function() {
 	var starfighter = window.starfighter = window.starfighter || {};
 
-	var TitleStar = starfighter.TitleStar = function(options, settings) {
+	var Star = starfighter.Star = function(settings, options) {
 		this.settings = settings;
 		this.x = options.x;
 		this.y = options.y;
 		this.blur = options.blur;
 		this.radius = options.radius;
+		this.active = options.active;
 	};
 
-	TitleStar.prototype.render = function() {
-		var context = this.settings.context;
+	Star.prototype.render = function() {
+		if (this.active) {
+			var context = this.settings.context;
+			var star = this.settings.constants.star;
 
-		context.save();
+			context.save();
 
-		context.fillStyle = "white";
-		context.shadowColor = "white";
-		context.shadowBlur = this.blur;
+			context.fillStyle = star.FILL_STYLE;
+			context.shadowColor = star.SHADOW_COLOR;
+			context.shadowBlur = this.blur;
 
-		context.beginPath();
-		context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-		context.fill();
-		context.closePath();
+			context.beginPath();
+			context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+			context.fill();
+			context.closePath();
 
-		if (this.blur < 40) this.blur += 1;
+			if (this.blur < star.LIMIT)
+				this.blur += star.STEP;
 
-		else this.blur = 0;
+			else
+				this.blur = 0;
 
-		context.restore();
+			context.restore();
+		}
 	};
 
-	TitleStar.prototype.translate = function() {
-		if (this.y >= this.settings.context.canvas.height)
-			this.y = 0;
+	Star.prototype.translate = function() {
+		if (this.active) {
+			if (this.y >= this.settings.context.canvas.height)
+				this.active = false;
 
-		else
-			this.y += 1;
+			else
+				this.y += this.settings.constants.star.VELOCITY_Y;
+		}
 	};
 
-	TitleStar.prototype.collide = function() {
-
-	};
-
-	var GameStar = starfighter.GameStar = function() {
-
-	};
+	Star.prototype.collide = function() {};
 
 })();
 

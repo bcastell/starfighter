@@ -58,13 +58,15 @@
 	};
 
 	Game.prototype.addActors = function(settings, stars) {
+		var game = settings.constants.game;
+
 		settings.actors = [[], [], [], [], [], [], [], []];
 
 		settings.actors.unshift(stars);
-		settings.actors[settings.constants.game.PLAYER].push(new starfighter.Player(settings));
-		settings.actors[settings.constants.game.LIVES].push(new starfighter.Lives(settings));
-		settings.actors[settings.constants.game.SCORE].push(new starfighter.Score(settings));
-		settings.actors[settings.constants.game.SPAWNER].push(new starfighter.Spawner(settings));
+		settings.actors[game.PLAYER].push(new starfighter.Player(settings));
+		settings.actors[game.LIVES].push(new starfighter.Lives(settings));
+		settings.actors[game.SCORE].push(new starfighter.Score(settings));
+		settings.actors[game.SPAWNER].push(new starfighter.Spawner(settings));
 	};
 
 })();
