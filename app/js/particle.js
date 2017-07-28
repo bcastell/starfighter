@@ -21,7 +21,6 @@
 
 			context.save();
 
-			context.globalCompositeOperation = "destination-over";
 			context.globalAlpha = this.alpha;
 			context.fillStyle = this.constants.particle[this.type].FILL_STYLE;
 			context.shadowColor = this.constants.particle[this.type].SHADOW_COLOR;

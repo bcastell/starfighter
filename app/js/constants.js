@@ -5,14 +5,15 @@
 		this.game = {
 			SPRITE_SHEET : "images/sheet.png",
 			OVERFLOW     : 256,
-			PLAYER       : 0,
-			POWERUPS	 : 1,
-			LIVES		 : 2,
-			SCORE		 : 3,
-			PARTICLES    : 4,
-			METEORS      : 5,
-			LASERS       : 6,
-			SPAWNER      : 7
+			STARS		 : 0,
+			PLAYER       : 1,
+			POWERUPS	 : 2,
+			LIVES		 : 3,
+			SCORE		 : 4,
+			PARTICLES    : 5,
+			METEORS      : 6,
+			LASERS       : 7,
+			SPAWNER      : 8
 		};
 
 		this.controls = {
@@ -164,6 +165,9 @@
 				MEDIUM_FREQUENCY : 2000,
 				SMALL_FREQUENCY  : 1000,
 				TINY_FREQUENCY   : 500
+			},
+			star : {
+				FREQUENCY : 2000
 			}
 		};
 
@@ -195,7 +199,6 @@
 				SHADOW_COLOR : "grey",
 				RADIUS		 : 80
 			},
-
 			life : {
 				FILL_STYLE	 : "green",
 				SHADOW_COLOR : "grey",

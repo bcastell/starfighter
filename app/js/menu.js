@@ -3,10 +3,14 @@
 
 	var Menu = starfighter.Menu = function() {
 		this.settings = this.setup();
+		this.stars = [];
+		this.handler = this.play.bind(this);
+
+		this.listen();
 
 		var that = this;
 		this.settings.sheet.onload = function() {
-			requestAnimationFrame(that.render.bind(that));
+			that.frameID = requestAnimationFrame(that.render.bind(that));
 		};
 	};
 
@@ -14,13 +18,16 @@
 		var context = this.settings.context;
 		var menu = this.settings.constants.menu;
 
+		context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+
 		this.renderBackground(context, menu);
+		this.renderStars();
 		this.renderTitle(context, menu);
 		this.renderButton(context, menu);
 		this.renderControls(context, menu);
 		this.renderAuthor(context, menu);
 
-		requestAnimationFrame(this.render.bind(this));
+		this.frameID = requestAnimationFrame(this.render.bind(this));
 	};
 
 	Menu.prototype.setup = function() {
@@ -34,9 +41,77 @@
 		return settings;
 	};
 
-	Menu.prototype.renderBackground = function(context, menu) {
-		context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+	Menu.prototype.listen = function() {
+		this.settings.context.canvas.addEventListener("mousedown", this.handler);
+	};
 
+	Menu.prototype.play = function(event) {
+		var pos = this.relativePos(event);
+
+		var canvas = this.settings.context.canvas;
+		var button = this.settings.constants.menu.button;
+
+		var hitbox = {
+			west  : canvas.width / 2 - button.SPRITE_WIDTH / 2,
+			east  : canvas.width / 2 - button.SPRITE_WIDTH / 2 + button.SPRITE_WIDTH,
+			north : 360,
+			south : 360 + button.SPRITE_HEIGHT
+		};
+
+		var within = pos.x >= hitbox.west && pos.x <= hitbox.east;
+		within = within && pos.y >= hitbox.north && pos.y <= hitbox.south;
+
+		if (within) {
+			canvas.removeEventListener("mousedown", this.handler);
+			this.settings.context.clearRect(0, 0, this.settings.context.canvas.width, this.settings.context.canvas.height);
+			cancelAnimationFrame(this.frameID);
+			new starfighter.Game(this.settings, this.stars);
+		}
+	};
+
+	Menu.prototype.relativePos = function(event) {
+		var rect = this.settings.context.canvas.getBoundingClientRect();
+
+		return {
+			x : Math.floor(event.clientX - rect.left),
+			y : Math.floor(event.clientY - rect.top)
+		};
+	};
+
+	Menu.prototype.randomStar = function() {
+		return {
+			x	   : Math.floor(Math.random() * this.settings.context.canvas.width),
+			y	   : 0,
+			blur   : Math.floor(Math.random() * 40),
+			radius : 1
+		};
+	};
+
+	Menu.prototype.spawnStars = function() {
+		var that = this;
+
+		var firstStar = new starfighter.TitleStar(that.randomStar(), that.settings);
+		that.stars.push(firstStar);
+
+		this.starTimer = setInterval(function() {
+			var star = new starfighter.TitleStar(that.randomStar(), that.settings);
+			that.stars.push(star);
+		}, that.settings.constants.spawner.star.FREQUENCY);
+	};
+
+	Menu.prototype.renderStars = function() {
+		if (!this.starTimer) this.spawnStars();
+
+		this.stars.forEach(function(star) {
+			star.render();
+			star.translate();
+		});
+
+		if (this.stars.length == this.settings.constants.game.OVERFLOW)
+			this.stars.splice(0, this.settings.constants.game.OVERFLOW / 2);
+	};
+
+	Menu.prototype.renderBackground = function(context, menu) {
 		var gradient = context.createLinearGradient(0, 0, 0, context.canvas.height);
 		gradient.addColorStop(0, menu.gradient.STOP_0);
 		gradient.addColorStop(1, menu.gradient.STOP_1);

@@ -1,13 +1,11 @@
 (function() {
 	var starfighter = window.starfighter = window.starfighter || {};
 
-	var Game = starfighter.Game = function() {
-		this.settings = this.setup();
+	var Game = starfighter.Game = function(settings, stars) {
+		this.settings = settings;
+		this.addActors(this.settings, stars);
 
-		var that = this;
-		this.settings.sheet.onload = function() {
-			requestAnimationFrame(that.render.bind(that));
-		};
+		requestAnimationFrame(this.render.bind(this));
 	};
 
 	Game.prototype.render = function() {
@@ -15,6 +13,8 @@
 		var actors = this.settings.actors;
 
 		context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+
+		this.renderBackground();
 
 		actors.forEach(function(type) {
 			type.forEach(function(actor) {
@@ -43,26 +43,29 @@
 		requestAnimationFrame(this.render.bind(this));
 	};
 
-	Game.prototype.setup = function() {
-		var settings = Object.create(null);
+	Game.prototype.renderBackground = function() {
+		var context = this.settings.context;
+		var menu = this.settings.constants.menu;
 
-		settings.constants = new starfighter.Constants();
+		var gradient = context.createLinearGradient(0, 0, 0, context.canvas.height);
+		gradient.addColorStop(0, menu.gradient.STOP_0);
+		gradient.addColorStop(1, menu.gradient.STOP_1);
 
-		settings.context = document.getElementById("cv").getContext("2d");
+		context.save();
+		context.fillStyle = gradient;
+		context.fillRect(0, 0, context.canvas.width, context.canvas.height);
+		context.restore();
+	};
 
-		settings.sheet = new Image();
-		settings.sheet.src = settings.constants.game.SPRITE_SHEET;
-
+	Game.prototype.addActors = function(settings, stars) {
 		settings.actors = [[], [], [], [], [], [], [], []];
+
+		settings.actors.unshift(stars);
 		settings.actors[settings.constants.game.PLAYER].push(new starfighter.Player(settings));
 		settings.actors[settings.constants.game.LIVES].push(new starfighter.Lives(settings));
 		settings.actors[settings.constants.game.SCORE].push(new starfighter.Score(settings));
 		settings.actors[settings.constants.game.SPAWNER].push(new starfighter.Spawner(settings));
-
-		return settings;
 	};
-
-	//new Game();
 
 })();
 
