@@ -98,7 +98,7 @@
 				SPRITE_HEIGHT : 84,
 				VELOCITY_X    : 0,
 				VELOCITY_Y    : 4,
-				HP			  : 8,
+				HP			  : 5,
 				SCORE		  : 40,
 				normal : {
 					SPRITE_X      : 224,
@@ -114,7 +114,7 @@
 				SPRITE_HEIGHT : 43,
 				VELOCITY_X    : 0,
 				VELOCITY_Y    : 6,
-				HP            : 6,
+				HP            : 4,
 				SCORE		  : 30,
 				normal : {
 					SPRITE_X : 651,
@@ -130,7 +130,7 @@
 				SPRITE_HEIGHT : 28,
 				VELOCITY_X    : 0,
 				VELOCITY_Y    : 8,
-				HP			  : 4,
+				HP			  : 3,
 				SCORE		  : 20,
 				normal : {
 					SPRITE_X : 406,
@@ -161,10 +161,10 @@
 
 		this.spawner = {
 			meteor : {
-				BIG_FREQUENCY    : 4000,
-				MEDIUM_FREQUENCY : 2000,
-				SMALL_FREQUENCY  : 1000,
-				TINY_FREQUENCY   : 500
+				BIG_FREQUENCY    : 1600,
+				MEDIUM_FREQUENCY : 800,
+				SMALL_FREQUENCY  : 400,
+				TINY_FREQUENCY   : 200
 			},
 			star : {
 				FREQUENCY : 500
@@ -230,9 +230,9 @@
 		};
 
 		this.powerup = {
-			OFFENSE    : 0.45,
-			DEFENSE    : 0.90,
-			FREQUENCY  : 2000,
+			OFFENSE    : 0.40,
+			DEFENSE    : 0.80,
+			FREQUENCY  : 13000,
 			VELOCITY_X : 0,
 			VELOCITY_Y : 2,
 			kind : {
@@ -245,14 +245,14 @@
 				SPRITE_Y	  : 437,
 				SPRITE_WIDTH  : 19,
 				SPRITE_HEIGHT : 30,
-				TIMEOUT		  : 5000
+				TIMEOUT		  : 8000
 			},
 			defense : {
 				SPRITE_X	  : 778,
 				SPRITE_Y	  : 824,
 				SPRITE_WIDTH  : 30,
 				SPRITE_HEIGHT : 30,
-				TIMEOUT		  : 5000,
+				TIMEOUT		  : 8000,
 				shield : {
 					SPRITE_X	  : 0,
 					SPRITE_Y	  : 412,
