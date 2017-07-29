@@ -40,5 +40,9 @@
 		--this.count;
 	};
 
+	Lives.prototype.empty = function() {
+		return this.count === 0;
+	};
+
 })();
 

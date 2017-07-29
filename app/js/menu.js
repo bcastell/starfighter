@@ -73,7 +73,7 @@
 
 		this.loadMusic();
 
-		new starfighter.Game(this.settings, this.stars);
+		this.settings.game = new starfighter.Game(this.settings, this.stars);
 	};
 
 	Menu.prototype.loadMusic = function() {

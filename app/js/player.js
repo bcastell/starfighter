@@ -148,6 +148,8 @@
 	Player.prototype.explode = function() {
 		var lives = this.actors[this.constants.game.LIVES][0];
 
+		lives.loseLife();
+
 		var particle = new starfighter.Particle(this.settings, this.center(), this.constants.particle.death.RADIUS, "death");
 		this.actors[this.constants.game.PARTICLES].push(particle);
 
@@ -155,29 +157,32 @@
 		this.immune = true;
 		this.position.x = this.context.canvas.width / 2 - this.dimensions.x / 2;
 		this.position.y = this.context.canvas.height - this.dimensions.y;
-		lives.loseLife();
 
 		if (this.controls.firing)  this.controls.ceasefire();
 	};
 
 	Player.prototype.revive = function() {
-		var controls = this.controls;
-		var constants = this.constants;
-		var that = this;
+		var lives = this.actors[this.constants.game.LIVES][0];
 
-		setTimeout(function() {
-			that.dead = false;
-
-			var particle = new starfighter.Particle(that.settings, that.center(), constants.particle.revive.RADIUS, "revive");
-			that.actors[constants.game.PARTICLES].push(particle);
-
-			that.setFireMode(false);
+		if (!lives.empty()) {
+			var controls = this.controls;
+			var constants = this.constants;
+			var that = this;
 
 			setTimeout(function() {
-				that.immune = false;
-			}, constants.player.IMMUNE_DELAY);
+				that.dead = false;
 
-		}, constants.player.REVIVE_DELAY);
+				var particle = new starfighter.Particle(that.settings, that.center(), constants.particle.revive.RADIUS, "revive");
+				that.actors[constants.game.PARTICLES].push(particle);
+
+				that.setFireMode(false);
+
+				setTimeout(function() {
+					that.immune = false;
+				}, constants.player.IMMUNE_DELAY);
+
+			}, constants.player.REVIVE_DELAY);
+		}
 	};
 
 	Player.prototype.setFireMode = function(option) {
