@@ -271,29 +271,6 @@
 			}
 		};
 
-		this.audio = {
-			fire : {
-				SOURCE		  : "audio/sfx_laser1.ogg",
-				PLAYBACK_RATE : 3,
-				VOLUME		  : 0.5
-			},
-			triplefire : {
-				SOURCE		  : "audio/sfx_laser2.ogg",
-				PLAYBACK_RATE : 3,
-				VOLUME		  : 0.5
-			},
-			shield_up : {
-				SOURCE		  : "audio/sfx_shieldUp.ogg",
-				PLAYBACK_RATE : 1,
-				VOLUME		  : 0.5
-			},
-			shield_down : {
-				SOURCE		  : "audio/sfx_shieldDown.ogg",
-				PLAYBACK_RATE : 1,
-				VOLUME		  : 0.5
-			}
-		};
-
 		this.menu = {
 			gradient : {
 				STOP_0 : "#16222a",

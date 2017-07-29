@@ -70,7 +70,18 @@
 		context.canvas.removeEventListener("mousedown", this.handler);
 		context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 		cancelAnimationFrame(this.frameID);
+
+		this.loadMusic();
+
 		new starfighter.Game(this.settings, this.stars);
+	};
+
+	Menu.prototype.loadMusic = function() {
+		var track = new Audio("audio/background.wav");
+		track.loop = true;
+		track.volume = 0.2;
+		track.load();
+		track.play();
 	};
 
 	Menu.prototype.relativePos = function(event) {

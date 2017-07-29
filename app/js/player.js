@@ -122,8 +122,6 @@
 
 		var laser = new starfighter.Laser(this.settings, this.laserStart(), color.BLUE, direction.CENTER);
 		this.actors[this.constants.game.LASERS].push(laser);
-
-		new starfighter.Audio(this.constants.audio.fire).play();
 	};
 
 	Player.prototype.triplefire = function() {
@@ -138,8 +136,6 @@
 		lasers.push(leftLaser);
 		lasers.push(centerLaser);
 		lasers.push(rightLaser);
-
-		new starfighter.Audio(this.constants.audio.triplefire).play();
 	};
 
 	Player.prototype.laserStart = function() {

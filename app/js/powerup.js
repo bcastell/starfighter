@@ -91,14 +91,11 @@
 		var particle = new starfighter.Particle(this.settings, player.center(), this.constants.particle.defense.RADIUS, powerup.kind.DEFENSE);
 		this.actors[this.constants.game.PARTICLES].push(particle);
 
-		new starfighter.Audio(this.constants.audio.shield_up).play();
-
 		player.shielded = true;
 
 		var that = this;
 		setTimeout(function() {
 			player.shielded = false;
-			new starfighter.Audio(that.constants.audio.shield_down).play();
 		}, powerup.defense.TIMEOUT);
 	};
 
