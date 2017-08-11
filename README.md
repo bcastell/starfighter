@@ -7,6 +7,10 @@
 
 <h4 align="center">A space shooter built with vanilla JavaScript and HTML5-Canvas.</h4>
 
+<h2 align="center">
+	<a href="https://bcastell.github.io/starfighter">PLAY</a>
+</h2>
+
 <p align="center">
   <img src="images/media/demo.gif">
 </p>
