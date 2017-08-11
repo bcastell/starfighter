@@ -1,20 +1,20 @@
 <h1 align="center">
   <br>
   <span>
-    <img src="app/images/media/title.png">
+    <img src="images/media/title.png">
   </span>
 </h1>
 
 <h4 align="center">A space shooter built with vanilla JavaScript and HTML5-Canvas.</h4>
 
 <p align="center">
-  <img src="app/images/media/demo.gif">
+  <img src="images/media/demo.gif">
 </p>
 
 ## Screenshots
-| ![Screen 1](app/images/media/death.png) | ![Screen 2](app/images/media/fire.png)   |
-| ----------------------------------------|----------------------------------------- |
-| ![Screen 3](app/images/media/shield.png)| ![Screen 4](app/images/media/triple.png) |
+| ![Screen 1](images/media/death.png) | ![Screen 2](images/media/fire.png)   |
+| ------------------------------------|------------------------------------- |
+| ![Screen 3](images/media/shield.png)| ![Screen 4](images/media/triple.png) |
 
 ## Instructions
 - Shoot and destroy meteors to increase score
