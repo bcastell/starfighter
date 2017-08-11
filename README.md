@@ -8,7 +8,7 @@
 <h4 align="center">A space shooter built with vanilla JavaScript and HTML5-Canvas.</h4>
 
 <p align="center">
-  ![screenshot](app/images/media/demo.gif)
+  <img src="app/images/media/demo.gif">
 </p>
 
 ## Screenshots
