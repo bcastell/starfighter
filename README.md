@@ -8,7 +8,7 @@
 <h4 align="center">A space shooter built with vanilla JavaScript and HTML5-Canvas.</h4>
 
 <h3 align="center">
-  [PLAY](https://bcastell.github.io/starfighter)
+  <a href="https://bcastell.github.io/starfighter">PLAY</a>
 </h3>
 
 <p align="center">
