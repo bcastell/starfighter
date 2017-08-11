@@ -40,8 +40,8 @@
 			SPRITE_WIDTH     : 99,
 			SPRITE_HEIGHT    : 75,
 			SCALE_FACTOR     : 0.5,
-			VELOCITY_X       : 6,
-			VELOCITY_Y       : 6,
+			VELOCITY_X       : 7,
+			VELOCITY_Y       : 7,
 			FIRE_FREQ		 : 160,
 			TRIPLE_FIRE_FREQ : 100,
 			ALPHA            : 0.5,
@@ -161,10 +161,10 @@
 
 		this.spawner = {
 			meteor : {
-				BIG_FREQUENCY    : 1600,
+				BIG_FREQUENCY : 1600,
 				MEDIUM_FREQUENCY : 800,
-				SMALL_FREQUENCY  : 400,
-				TINY_FREQUENCY   : 200
+				SMALL_FREQUENCY : 400,
+				TINY_FREQUENCY : 400
 			},
 			star : {
 				FREQUENCY : 500
