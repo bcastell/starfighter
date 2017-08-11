@@ -12,11 +12,9 @@
 </p>
 
 ## Screenshots
-
-| ![Screen 1](app/images/media/menu.png)  | ![Screen 2](app/images/media/cruise.png) |
+| ![Screen 1](app/images/media/death.png) | ![Screen 2](app/images/media/fire.png)   |
 | ----------------------------------------|----------------------------------------- |
-| ![Screen 3](app/images/media/death.png) | ![Screen 4](app/images/media/fire.png)   |
-| ![Screen 5](app/images/media/shield.png)| ![Screen 6](app/images/media/triple.png) |
+| ![Screen 3](app/images/media/shield.png)| ![Screen 4](app/images/media/triple.png) |
 
 ## Instructions
 - Shoot and destroy meteors to increase score
